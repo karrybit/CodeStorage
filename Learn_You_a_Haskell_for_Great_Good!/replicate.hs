@@ -1,3 +1,4 @@
 replicate' :: Int -> a -> [a]
-replicate' 0 _ = []
-replicate' x y = y: replicate' (x -1) y
+replicate' n x =
+    | n <= 0 = []
+    | otherwise x: replicate' (n-1) x
