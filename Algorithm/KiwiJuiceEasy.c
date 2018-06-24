@@ -21,9 +21,9 @@ int main() {
 
     // move juice
     for (int i = 0; i < m; i++) {
-        int move = min(bottles[fromId[i]], capacities[toId[i]] - bottles[toId[i]]);
-        bottles[fromId[i]] -= move;
-        bottles[toId[i]] += move;
+        int sum = bottles[fromId[i]] + bottles[toId[i]];
+        bottles[toId[i]] = min(sum, capacities[toId[i]]);
+        bottles[fromId[i]] = sum - bottles[toId[i]];
     }
 
     // standard output
