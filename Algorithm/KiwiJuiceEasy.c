@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 #define MAX 50
+#define min(a, b) ((a) < (b) ? (a) : (b))
 
 int capacities[MAX];
 int bottles[MAX];
@@ -20,19 +21,9 @@ int main() {
 
     // move juice
     for (int i = 0; i < m; i++) {
-        // 移動先の空き容量を算出
-        int emptySize = capacities[toId[i]] - bottles[toId[i]];
-
-        if (bottles[fromId[i]] > emptySize) {
-            // 移動量が空き容量よりも多い場合
-            bottles[fromId[i]] -= emptySize;
-            bottles[toId[i]] = capacities[toId[i]];
-
-        } else {
-            // 移動量が空き容量以下の場合
-            bottles[toId[i]] += bottles[fromId[i]];
-            bottles[fromId[i]] = 0;
-        }
+        int move = min(bottles[fromId[i]], capacities[toId[i]] - bottles[toId[i]]);
+        bottles[fromId[i]] -= move;
+        bottles[toId[i]] += move;
     }
 
     // standard output
