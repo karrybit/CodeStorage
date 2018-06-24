@@ -1,3 +1,7 @@
+type PhoneNumber = String
+type Name = String
+type PhoneBook = [(Name, PhoneNumber)]
+
 phoneBook =
     [("betty", "555-2938")
     ,("bonnie", "452-2928")
@@ -18,3 +22,6 @@ findKey' key ((k,v): xs)
 
 findKey'' :: (Eq k) => k -> [(k, v)] -> Maybe v
 findKey'' key xs = foldr (\(k, v) acc -> if key == k then Just v else acc) Nothing xs
+
+inPhoneBook :: Name -> PhoneNumber -> phoneBook -> Bool
+inPhoneBook name pnumber pbook = (name, pnumber) `elem` pbook
