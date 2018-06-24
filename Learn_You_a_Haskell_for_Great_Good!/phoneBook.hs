@@ -8,7 +8,7 @@ phoneBook =
     ]
 
 findKey :: (Eq k) => k -> [(k, v)] -> v
-findKey key xs = snd . head . finlter (\(k, v) -> key == k) $ xs
+findKey key xs = snd . head . filter (\(k, v) -> key == k) $ xs
 
 findKey' :: (Eq k) => k -> [(k, v)] -> Maybe v
 findKey' key [] = Nothing
