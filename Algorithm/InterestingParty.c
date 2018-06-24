@@ -19,7 +19,7 @@ int main() {
     for (int i = 0; i < n; i++) scanf("%s", seconds[i]);
     for (int i = 0; i < MAX; i++) match[i] = 1;
 
-    for (int i = 0; i < n; i++) for (int j = 0; j < n; j++) {
+    for (int i = 0; i < n; i++) for (int j = i; j < n; j++) {
         if (i == j) continue;
 
         // 1つでも一致すれば足す
@@ -27,7 +27,7 @@ int main() {
             strcmp(firsts[i], seconds[j]) &&
             strcmp(seconds[i], firsts[j]) &&
             strcmp(seconds[i], seconds[j]))) {
-            match[i]++;
+            match[i]++; match[j]++;
         }
     }
 
