@@ -1,18 +1,19 @@
-#include <iostream>
+#include <cstdio>
+#include <climits>
 
-using std::cin;
-using std::cout;
-using std::endl;
+using std::scanf;
+using std::printf;
 
 int main() {
     int n, v;
-    int min = 1, max = 1;
-    cin >> n;
+    scanf("%d", &n);
+    unsigned long min = ULONG_MAX, max = 1;
     for (int i = 0; i < n; i++) {
-        cin >> v;
+        scanf("%d", &v);
         if (v < min) min = v;
         if (v > max) max = v;
     }
-    cout << max - min << endl;
+
+    printf("%lu\n", max - min);
     return 0;
 }
