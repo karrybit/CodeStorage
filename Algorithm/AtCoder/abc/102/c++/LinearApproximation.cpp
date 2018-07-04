@@ -1,34 +1,26 @@
 #include <cstdio>
 #include <vector>
 #include <complex>
+#include <algorithm>
 
-using std::scanf;
-using std::printf;
-using std::vector;
-using std::abs;
+using namespace std;
 
 int main() {
-    int n, a;
-    int indexSum = 0;
-    int eleSum = 0;
-    scanf("%d", &n);
-    vector<int> v;
+    long long int n, a;
+    scanf("%lld", &n);
+    vector<long long int> v;
     for (int i = 1; i <= n; i++) {
-        indexSum += i;
-        scanf("%d", &a);
-        eleSum += a;
-        v.push_back(a);
+        scanf("%lld", &a);
+        v.push_back(a - i);
     }
 
-    int size = v.size();
-    int b = (eleSum - indexSum) / size;
-    int sadPoint = 0;
-    for (int i = 0; i < n; i++) {
-        int sad = v[i] - (b + i + 1);
-        sadPoint += abs(sad);
-    }
+    sort(v.begin(), v.end());
+    long long int size = v.size();
+    long long int m = v[size / 2];
+    long long int sad = 0;
+    for (long long int e: v) sad += abs(e - m);
 
-    printf("%d\n", sadPoint);
+    printf("%lld\n", sad);
 
     return 0;
 }
