@@ -7,10 +7,7 @@ int main() {
     std::string ans;
     for (auto s: str) {
         if (s != 'B') ans += s;
-        else if (!ans.empty()) {
-            auto it = ans.end();
-            ans.erase(--it);
-        }
+        else if (!ans.empty()) ans.pop_back();
     }
     printf("%s\n", ans.c_str());
     return 0;
