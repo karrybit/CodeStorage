@@ -16,15 +16,15 @@ int main() {
     for (auto c = sa.begin(); !winner;) {
         if (*c == 'a') {
             if (sai == sa.end()) winner = 'A';
-            else c = sai++;
+            else                 c = sai++;
 
         } else if (*c == 'b') {
             if (sbi == sb.end()) winner = 'B';
-            else c = sbi++;
+            else                 c = sbi++;
             
         } else {
             if (sci == sc.end()) winner = 'C';
-            else c = sci++;
+            else                 c = sci++;
         }
     }
 
