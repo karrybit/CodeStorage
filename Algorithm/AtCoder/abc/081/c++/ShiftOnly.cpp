@@ -22,7 +22,10 @@ int main() {
         ret++;
         for (auto &e: vc) {
             e /= 2;
-            if (e % 2 == 1) evenState = false;
+            if (e % 2 == 1) {
+                evenState = false;
+                break;
+            }
        }
     }
 
