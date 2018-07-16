@@ -6,27 +6,18 @@ CHAPTER=chapter$1
 PROBLEM=$2
 # ケース番号
 TEST_NUMBER=$3
+
 # テストケースのパス
 TEST_PATH=$HOME/Develop/CodeStorage/Algorithm/Cheetah/test
 # 実行ファイルのパス
 EXEC_PATH=$HOME/Develop/CodeStorage/Algorithm/Cheetah/$CHAPTER
 
 # テストケースの数を取得するため、ファイル数をカウント
-FILES=`ls -1 $TEST_PATH/$PROBLEM | wc -l`
+FILES=`ls -1 $TEST_PATH/$PROBLEM/Input | wc -l`
 FILES=$[$FILES - 1]
 
 if [ `echo $TEST_NUMBER | grep "[0-${FILES}]"` ]; then
-# 引数がケース番号の場合
-    CASE_FILE="example$TEST_NUMBER.txt"
-    LINES=0
-    # ケースの行数を取得
-    LINES=`cat $TEST_PATH/$PROBLEM/$CASE_FILE | wc -l`
-    # 期待値を記述しているためケースの記述数分に調整する
-    LINES=$[$LINES - 1]
-    # 期待値を取得
-    # TODO: 1文字ではなく、複数行にまたがるような期待値にも対応
-    EXPECT=`grep "Return" $TEST_PATH/$PROBLEM/$CASE_FILE | awk '{print $2}'`
-
+    :
 elif [ $TEST_NUMBER = "all" ]; then
 # 引数がallの場合
     echo "test all cases."
@@ -40,14 +31,31 @@ fi
 if [ `echo $TEST_NUMBER | grep "[0-${FILES}]"` ]; then
 # 引数がケース番号の場合
     # テストの実行
-    ANSWER=`sed -n "1, ${LINES}p" $TEST_PATH/$PROBLEM/$CASE_FILE | $EXEC_PATH/$PROBLEM.o`
+    touch $TEST_PATH/temp.txt
+    cat $TEST_PATH/$PROBLEM/Input/example$TEST_NUMBER.txt | $EXEC_PATH/$PROBLEM.o > $TEST_PATH/temp.txt
 
-    if [ ${EXPECT} = ${ANSWER} ];
+    cmp -s $TEST_PATH/temp.txt $TEST_PATH/$PROBLEM/Output/example$TEST_NUMBER.txt
+
+    if test $? -eq 0 ;
     # テスト結果が期待値の突合結果を出力
-        then echo "🚀 case: $TEST_NUMBER, expect: $EXPECT, answer: $ANSWER, result: ☀️ Success"
-        else echo "🚀 case: $TEST_NUMBER, expect: $EXPECT, answer: $ANSWER, result: ⛈ Failure"
+        then
+            echo "🚀 case: $TEST_NUMBER"
+            echo "📋 expect:"
+            cat $TEST_PATH/$PROBLEM/Output/example$TEST_NUMBER.txt
+            echo "🖌 answer:"
+            cat $TEST_PATH/temp.txt
+            echo "💡 result: ☀️ Success"
+        else
+            echo "🚀 case: $TEST_NUMBER"
+            echo "🚓 expect:"
+            cat $TEST_PATH/$PROBLEM/Output/example$TEST_NUMBER.txt
+            echo "👨‍🎓 answer:"
+            cat $TEST_PATH/temp.txt
+            echo "💡 result: ⛈ Failure"
     fi
 
+    echo ""
+    rm -f $TEST_PATH/temp.txt
 else
 # 引数がallの場合
     for i in $(seq 0 ${FILES})

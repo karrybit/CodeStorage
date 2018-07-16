@@ -1,6 +1,0 @@
-3
-NYY
-YNY
-YYN
-
-Return: 2
