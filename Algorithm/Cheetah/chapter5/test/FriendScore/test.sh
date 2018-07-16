@@ -7,7 +7,11 @@ TEST_PATH=$HOME/Develop/CodeStorage/Algorithm/Cheetah/chapter5/test/$CASE
 # 実行ファイルのパス
 EXEC_PATH=$HOME/Develop/CodeStorage/Algorithm/Cheetah/chapter5/$CASE.o
 
-if [ `echo $2 | grep '[0-4]'` ]; then
+# テストケースの数を取得するため、ファイル数をカウント
+FILES=`ls -1 $TEST_PATH | wc -l`
+FILES=$[$FILES - 2]
+
+if [ `echo $2 | grep "[0-${FILES}]"` ]; then
 # 引数がケース番号の場合
     CASE_FILE="example$2.txt"
     LINES=0
@@ -24,11 +28,12 @@ elif [ $2 = "all" ]; then
     echo "test all cases."
 
 else
-    echo "👹 The test case number is between 0 and 4. your input is $1"
+    echo "👹 The test case number is between 0 and 4."
+    echo "👹 your input is [$2]"
     exit 0;
 fi
 
-if [ `echo $2 | grep '[0-4]'` ]; then
+if [ `echo $2 | grep "[0-${FILES}]"` ]; then
 # 引数がケース番号の場合
     # テストの実行
     ANSWER=`sed -n "1, ${LINES}p" $TEST_PATH/$CASE_FILE | $EXEC_PATH`
@@ -41,9 +46,6 @@ if [ `echo $2 | grep '[0-4]'` ]; then
 
 else
 # 引数がallの場合
-    # テストケースの数を取得するため、ファイル数をカウント
-    FILES=`ls -1 $TEST_PATH | wc -l`
-    FILES=$[$FILES - 2]
     for i in $(seq 0 ${FILES})
     do
         # 0から4まですべて行う
