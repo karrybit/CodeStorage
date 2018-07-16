@@ -27,14 +27,16 @@ FILES=`ls -1 $TEST_PATH/$PROBLEM/Input | wc -l`
 FILES=$[$FILES - 1]
 
 if [ `echo $TEST_NUMBER | grep "[0-${FILES}]"` ]; then
-    :
+    echo "\n+------------------------------+"
+    echo "🚀 execute test example$TEST_NUMBER"
+
 elif [ $TEST_NUMBER = "all" ]; then
 # 引数がallの場合
     echo "test all cases."
 
 else
     echo "👹 The test case number is between 0 and 4."
-    echo "👹 your input is [$3]"
+    echo "👹 your input is [$TEST_NUMBER]"
     exit 0
 fi
 
@@ -44,25 +46,22 @@ if [ `echo $TEST_NUMBER | grep "[0-${FILES}]"` ]; then
     cat $TEST_PATH/$PROBLEM/Input/example$TEST_NUMBER.txt | $EXEC_PATH/$PROBLEM.o > $TEST_PATH/temp.txt
 
     cmp -s $TEST_PATH/temp.txt $TEST_PATH/$PROBLEM/Output/example$TEST_NUMBER.txt
+    RESULT=$?
 
-    if test $? -eq 0 ;
-        then
-            echo "🚀 case: $TEST_NUMBER"
-            echo "📋 expect:"
-            cat $TEST_PATH/$PROBLEM/Output/example$TEST_NUMBER.txt
-            echo "🖌 answer:"
-            cat $TEST_PATH/temp.txt
-            echo "💡 result: ☀️ Success"
-        else
-            echo "🚀 case: $TEST_NUMBER"
-            echo "📋 expect:"
-            cat $TEST_PATH/$PROBLEM/Output/example$TEST_NUMBER.txt
-            echo "🖌 answer:"
-            cat $TEST_PATH/temp.txt
-            echo "💡 result: ⛈ Failure"
+    echo "expect:"
+    cat $TEST_PATH/$PROBLEM/Output/example$TEST_NUMBER.txt
+    echo "answer:"
+    cat $TEST_PATH/temp.txt
+
+    if test $RESULT -eq 0 ;
+    then
+        echo "result:"
+        echo "☀️ Success"
+    else
+        echo "result:"
+        echo "⛈ Failure"
     fi
 
-    echo ""
     rm -f $TEST_PATH/temp.txt
 
 else
