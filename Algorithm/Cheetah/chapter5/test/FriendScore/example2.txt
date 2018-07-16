@@ -4,3 +4,5 @@ YNYNN
 NYNYN 
 NNYNY 
 NNNYN
+
+Return: 4

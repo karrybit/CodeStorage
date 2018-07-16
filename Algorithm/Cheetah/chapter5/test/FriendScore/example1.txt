@@ -2,3 +2,5 @@
 NYY
 YNY
 YYN
+
+Return: 2
