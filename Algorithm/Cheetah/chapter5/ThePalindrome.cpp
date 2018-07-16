@@ -4,23 +4,17 @@
 using namespace std;
 
 int main() {
-    string str, reversed;
+    string str;
     cin >> str;
 
-    reverse_copy(str.begin(), str.end(), back_inserter(reversed));
-
-    int offset = 0;
-    for (int i = 0; i < str.length();) {
-        if (reversed[i + offset] == '\0' ||
-            str[i] == '\0') break;
-        if (str[i] != reversed[i + offset]) {
-            offset++;
-            i = 0;
-        } else {
-            i++;
-        }
+    int lastIndex = str.length() - 1;
+    int addCnt = 0;
+    for (int i = 0; i < str.length(); i++) {
+        if (i == lastIndex) break;
+        if (str[i] != str[lastIndex - i]) addCnt++;
     }
-    
-    cout << str.length() + offset << endl;
+
+    cout << str.length() + addCnt << endl;
+
     return 0;
 }
