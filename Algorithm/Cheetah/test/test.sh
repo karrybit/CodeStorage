@@ -47,9 +47,9 @@ if [ `echo $TEST_NUMBER | grep "[0-${FILES}]"` ]; then
             echo "💡 result: ☀️ Success"
         else
             echo "🚀 case: $TEST_NUMBER"
-            echo "🚓 expect:"
+            echo "📋 expect:"
             cat $TEST_PATH/$PROBLEM/Output/example$TEST_NUMBER.txt
-            echo "👨‍🎓 answer:"
+            echo "🖌 answer:"
             cat $TEST_PATH/temp.txt
             echo "💡 result: ⛈ Failure"
     fi
