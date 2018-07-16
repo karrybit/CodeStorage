@@ -5,8 +5,10 @@ PROBLEM=$2
 # ケース番号
 TEST_NUMBER=$3
 
+# テストディレクトリ
+TEST_HOME=$HOME/Develop/CodeStorage/Algorithm/Cheetah/test
 # テストケースのパス
-TEST_PATH=$HOME/Develop/CodeStorage/Algorithm/Cheetah/test
+TEST_PATH=$TEST_HOME/chapter$1
 # 実行ファイルのパス
 EXEC_PATH=$HOME/Develop/CodeStorage/Algorithm/Cheetah/chapter$1
 
@@ -66,6 +68,6 @@ else
 # 引数がallの場合
     for i in $(seq 0 ${FILES})
     do
-        sh $TEST_PATH/test.sh $1 $2 $i
+        sh $TEST_HOME/test.sh $1 $2 $i
     done
 fi
