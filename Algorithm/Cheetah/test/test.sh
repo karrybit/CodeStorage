@@ -30,14 +30,12 @@ fi
 
 if [ `echo $TEST_NUMBER | grep "[0-${FILES}]"` ]; then
 # 引数がケース番号の場合
-    # テストの実行
     touch $TEST_PATH/temp.txt
     cat $TEST_PATH/$PROBLEM/Input/example$TEST_NUMBER.txt | $EXEC_PATH/$PROBLEM.o > $TEST_PATH/temp.txt
 
     cmp -s $TEST_PATH/temp.txt $TEST_PATH/$PROBLEM/Output/example$TEST_NUMBER.txt
 
     if test $? -eq 0 ;
-    # テスト結果が期待値の突合結果を出力
         then
             echo "🚀 case: $TEST_NUMBER"
             echo "📋 expect:"
@@ -56,11 +54,11 @@ if [ `echo $TEST_NUMBER | grep "[0-${FILES}]"` ]; then
 
     echo ""
     rm -f $TEST_PATH/temp.txt
+
 else
 # 引数がallの場合
     for i in $(seq 0 ${FILES})
     do
-        # 0から4まですべて行う
         sh $TEST_PATH/test.sh $1 $2 $i
     done
 fi
