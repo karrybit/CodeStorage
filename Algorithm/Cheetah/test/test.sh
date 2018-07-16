@@ -53,7 +53,7 @@ if [ `echo $TEST_NUMBER | grep "[0-${FILES}]"` ]; then
     echo "answer:"
     cat $TEST_PATH/temp.txt
 
-    if test $RESULT -eq 0 ;
+    if [ $RESULT -eq 0 ];
     then
         echo "result:"
         echo "☀️ Success"
