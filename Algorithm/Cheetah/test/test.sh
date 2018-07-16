@@ -12,6 +12,16 @@ TEST_PATH=$HOME/Develop/CodeStorage/Algorithm/Cheetah/test
 # 実行ファイルのパス
 EXEC_PATH=$HOME/Develop/CodeStorage/Algorithm/Cheetah/$CHAPTER
 
+if [ ! -d $TEST_PATH/$PROBLEM ]; then
+    echo "don't exist $TEST_PATH/$PROBLEM"
+    exit 0
+fi
+
+if [ ! -e $EXEC_PATH/$PROBLEM.o ]; then
+    echo "don't exist $EXEC_PATH/$PROBLEM.o"
+    exit 0
+fi
+
 # テストケースの数を取得するため、ファイル数をカウント
 FILES=`ls -1 $TEST_PATH/$PROBLEM/Input | wc -l`
 FILES=$[$FILES - 1]
@@ -25,7 +35,7 @@ elif [ $TEST_NUMBER = "all" ]; then
 else
     echo "👹 The test case number is between 0 and 4."
     echo "👹 your input is [$3]"
-    exit 0;
+    exit 0
 fi
 
 if [ `echo $TEST_NUMBER | grep "[0-${FILES}]"` ]; then
