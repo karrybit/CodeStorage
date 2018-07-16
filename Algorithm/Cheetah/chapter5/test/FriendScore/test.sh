@@ -1,34 +1,52 @@
 #!/bin/zsh
 
+# ケース名
+CASE=$1
+# テストケースのパス
+TEST_PATH=$HOME/Develop/CodeStorage/Algorithm/Cheetah/chapter5/test/$CASE
+# 実行ファイルのパス
+EXEC_PATH=$HOME/Develop/CodeStorage/Algorithm/Cheetah/chapter5/$CASE.o
 
-
-CASE_PATH=$HOME/Develop/CodeStorage/Algorithm/Cheetah/chapter5/test/FriendScore
-EXEC_PATH=$HOME/Develop/CodeStorage/Algorithm/Cheetah/chapter5/FriendScore.o
-
-if [ `echo $1 | grep '[0-4]'` ]; then
-    CASE_FILE="example$1.txt"
+if [ `echo $2 | grep '[0-4]'` ]; then
+# 引数がケース番号の場合
+    CASE_FILE="example$2.txt"
     LINES=0
-    LINES=`cat $CASE_PATH/$CASE_FILE | wc -l`
+    # ケースの行数を取得
+    LINES=`cat $TEST_PATH/$CASE_FILE | wc -l`
+    # 期待値を記述しているためケースの記述数分に調整する
     LINES=$[$LINES - 1]
-    EXPECT=`grep "Return" $CASE_PATH/$CASE_FILE | awk '{print $2}'`
+    # 期待値を取得
+    # TODO: 1文字ではなく、複数行にまたがるような期待値にも対応
+    EXPECT=`grep "Return" $TEST_PATH/$CASE_FILE | awk '{print $2}'`
 
-elif [ $1 = "all" ]; then
+elif [ $2 = "all" ]; then
+# 引数がallの場合
     echo "test all cases."
+
 else
     echo "👹 The test case number is between 0 and 4. your input is $1"
     exit 0;
 fi
 
-if [ `echo $1 | grep '[0-4]'` ]; then
-    ANSWER=`sed -n "1, ${LINES}p" $CASE_PATH/$CASE_FILE | $EXEC_PATH`
-    RESULT="🚀 case: $1, expect: $EXPECT, answer: $ANSWER"
+if [ `echo $2 | grep '[0-4]'` ]; then
+# 引数がケース番号の場合
+    # テストの実行
+    ANSWER=`sed -n "1, ${LINES}p" $TEST_PATH/$CASE_FILE | $EXEC_PATH`
+
     if [ ${EXPECT} = ${ANSWER} ];
-        then echo "$RESULT, result: ☀️ Success"
-        else echo "$RESULT, result: ⛈ Failure"
+    # テスト結果が期待値の突合結果を出力
+        then echo "🚀 case: $2, expect: $EXPECT, answer: $ANSWER, result: ☀️ Success"
+        else echo "🚀 case: $2, expect: $EXPECT, answer: $ANSWER, result: ⛈ Failure"
     fi
+
 else
-    for i in 0 1 2 3 4
+# 引数がallの場合
+    # テストケースの数を取得するため、ファイル数をカウント
+    FILES=`ls -1 $TEST_PATH | wc -l`
+    FILES=$[$FILES - 2]
+    for i in $(seq 0 ${FILES})
     do
-        sh $CASE_PATH/test.sh $i
+        # 0から4まですべて行う
+        sh $TEST_PATH/test.sh $CASE $i
     done
 fi
