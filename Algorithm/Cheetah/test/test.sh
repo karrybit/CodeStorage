@@ -1,7 +1,5 @@
 #!/bin/zsh
 
-# チャプター番号
-CHAPTER=chapter$1
 # 問題名
 PROBLEM=$2
 # ケース番号
@@ -10,7 +8,7 @@ TEST_NUMBER=$3
 # テストケースのパス
 TEST_PATH=$HOME/Develop/CodeStorage/Algorithm/Cheetah/test
 # 実行ファイルのパス
-EXEC_PATH=$HOME/Develop/CodeStorage/Algorithm/Cheetah/$CHAPTER
+EXEC_PATH=$HOME/Develop/CodeStorage/Algorithm/Cheetah/chapter$1
 
 if [ ! -d $TEST_PATH/$PROBLEM ]; then
     echo "don't exist $TEST_PATH/$PROBLEM"
