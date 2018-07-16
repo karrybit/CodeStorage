@@ -12,6 +12,14 @@ TEST_PATH=$TEST_HOME/chapter$1
 # 実行ファイルのパス
 EXEC_PATH=$HOME/Develop/CodeStorage/Algorithm/Cheetah/chapter$1
 
+if [ $1 = "help" ]; then
+    echo "you must input 3 arguments."
+    echo "  * arg1: ChapterNumber"
+    echo "  * arg2: ProblemName"
+    echo "  * arg3: CaseNumber or \"all\""
+    exit 0
+fi
+
 if [ ! -d $TEST_PATH/$PROBLEM ]; then
     echo "don't exist $TEST_PATH/$PROBLEM"
     exit 0
@@ -28,7 +36,7 @@ FILES=$[$FILES - 1]
 
 if [ `echo $TEST_NUMBER | grep "[0-${FILES}]"` ]; then
     echo "\n+------------------------------+"
-    echo "🚀 execute test example$TEST_NUMBER"
+    echo "🚀 execute test example$TEST_NUMBER."
 
 elif [ $TEST_NUMBER = "all" ]; then
 # 引数がallの場合
@@ -68,6 +76,6 @@ else
 # 引数がallの場合
     for i in $(seq 0 ${FILES})
     do
-        sh $TEST_HOME/test.sh $1 $2 $i
+        sh $0 $1 $2 $i
     done
 fi
