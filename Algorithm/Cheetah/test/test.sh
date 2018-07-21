@@ -43,7 +43,7 @@ elif [ $TEST_NUMBER = "all" ]; then
     echo "test all cases."
 
 else
-    echo "👹 The test case number is between 0 and 4."
+    echo "👹 The test case number is between 0 and $TEST_NUMBER."
     echo "👹 your input is [$TEST_NUMBER]"
     exit 0
 fi
