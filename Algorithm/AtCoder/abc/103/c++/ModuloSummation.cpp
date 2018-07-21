@@ -1,17 +1,7 @@
 #include <iostream>
 #include <vector>
-#include <algorithm>
 
 using namespace std;
-
-int gcd(int a, int b) {
-    int c = a % b;
-    if (c) {
-        return gcd(b, c);
-    } else {
-        return b;
-    }
-}
 
 int main() {
     int n;
@@ -24,13 +14,9 @@ int main() {
         v.push_back(a);
     }
 
-    sort(v.begin(), v.end(), greater<int>());
-
-    int gcdValue = (v[0] / gcd(v[0], v[1])) * v[1];
-    --gcdValue;
-
-    long ans = 0;
-    for (int e: v) ans += gcdValue % e;
+    long long ans = 0;
+    for (int e: v) ans += e;
+    ans -= n;
 
     cout << ans << endl;
 
