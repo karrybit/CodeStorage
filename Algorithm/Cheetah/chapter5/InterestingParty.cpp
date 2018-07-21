@@ -23,15 +23,16 @@ int main() {
         sv.push_back(str);
     }
 
-    int maxTheme;
+    int maxTheme = 0;
     for (int i = 0; i < n; i++) {
-        int maxI;
+        int maxF = 0;
+        int maxS = 0;
         for (int j = 0; j < n; j++) {
-            if (i == j) continue;
-            if (fv[i] == fv[j] || fv[i] == sv[j]) maxI++;
+            if (fv[i] == fv[j] || fv[i] == sv[j]) maxF++;
+            if (sv[i] == fv[j] || sv[i] == sv[j]) maxS++;
         }
 
-        maxTheme = max(maxTheme, maxI);
+        maxTheme = max(maxTheme, max(maxF, maxS));
     }
 
     cout << maxTheme << endl;
