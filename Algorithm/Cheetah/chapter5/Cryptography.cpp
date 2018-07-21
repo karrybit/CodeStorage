@@ -1,23 +1,27 @@
 #include <iostream>
 #include <algorithm>
+#include <vector>
+#include <numeric>
+
+using namespace std;
 
 int main() {
-    // standard input
-    int n; scanf("%d", &n);
-    int numbers[n];
-    for (int i = 0; i < n; i++) scanf("%d", &numbers[i]);
+    int n;
+    cin >> n;
+    
+    vector<int> v;
+    for (int i = 0; i < n; i++) {
+        int value;
+        cin >> value;
+        v.push_back(value);
+    }
+    
+    ++*min_element(v.begin(), v.end());
 
-    // find minimum number in array
-    int minIndex = 0;
-    for (int i = 0; i < n; i++) if (numbers[minIndex] > numbers[i]) minIndex = i;
-    numbers[minIndex]++;
+    unsigned long long ans = 1;
+    for (auto e: v) ans *= e;
 
-    // calculate
-    unsigned long long int producted = 1;
-    for (int i = 0; i < n; i++) producted *= numbers[i];
-
-    // standard output
-    printf("%llu\n", producted);
+    cout << ans << endl;
 
     return 0;
 }
