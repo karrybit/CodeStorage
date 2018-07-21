@@ -7,11 +7,11 @@ int main() {
     string str;
     cin >> str;
 
-    int lastIndex = str.length() - 1;
+    auto eItr = --str.end();
     int addCnt = 0;
-    for (int i = 0; i < str.length(); i++) {
-        if (i == lastIndex) break;
-        if (str[i] != str[lastIndex - i]) addCnt++;
+    for (char s: str) {
+        if (s == *eItr) --eItr;
+        else            ++addCnt;
     }
 
     cout << str.length() + addCnt << endl;
