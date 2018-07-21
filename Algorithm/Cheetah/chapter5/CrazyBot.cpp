@@ -30,7 +30,7 @@ long double calculateProbability(int n, Direction d) {
     }
 
     Direction s;
-    long double sum;
+    long double sum = 0.0;
     switch (d) {
         case NORTH:
             s = SOUTH;
@@ -50,9 +50,10 @@ long double calculateProbability(int n, Direction d) {
     }
 
     Direction allCases[] = {NORTH, EAST, WEST, SOUTH};
+    --n;
     for (Direction e: allCases) {
         if (s == e) continue;
-        sum += dProbability * calculateProbability(--n, e);
+        sum += dProbability * calculateProbability(n, e);
     }
 
     return sum;
@@ -67,9 +68,9 @@ int main() {
     west = _west / 100;
     south = _south / 100;
 
-    long double ans;
+    long double ans = 0.0;
     Direction allCases[] = {NORTH, EAST, WEST, SOUTH};
-    for (Direction e: allCases) ans += calculateProbability(--n, e);
+    for (Direction e: allCases) ans += calculateProbability(n, e);
 
     cout << ans << endl;
 
