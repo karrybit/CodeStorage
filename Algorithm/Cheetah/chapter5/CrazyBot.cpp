@@ -1,78 +1,71 @@
 #include <iostream>
+#include <vector>
+#include <stdio.h>
 
 using namespace std;
 
-enum Direction { NORTH, EAST, WEST, SOUTH };
+using Vertex = struct { int x, y; };
+
 int n;
 long double north, east, west, south;
 
-/// 回ることのないケースのみ解く
-long double calculateProbability(int n, Direction d) {
-    if (!n) return 0;
-
-    long double dProbability;
-    switch (d) {
-        case NORTH:
-            dProbability = north;
-            break;
-
-        case EAST:
-            dProbability = east;
-            break;
-
-        case WEST:
-            dProbability = west;
-            break;
-
-        case SOUTH:
-            dProbability = south;
-            break;
-    }
-
-    Direction s;
-    long double sum = 0.0;
-    switch (d) {
-        case NORTH:
-            s = SOUTH;
-            break;
-
-        case EAST:
-            s = WEST;
-            break;
-
-        case WEST:
-            s = EAST;
-            break;
-
-        case SOUTH:
-            s = NORTH;
-            break;
-    }
-
-    Direction allCases[] = {NORTH, EAST, WEST, SOUTH};
-    --n;
-    for (Direction e: allCases) {
-        if (s == e) continue;
-        sum += dProbability * calculateProbability(n, e);
-    }
-
-    return sum;
+bool contains(vector<Vertex> stack, Vertex target) {
+    for (auto it = stack.begin(); it != stack.end(); it++) if (target.x == it->x && target.y == it->y) return true;
+    return false;
 }
 
+long double calculateProbability(int n, long double p, vector<Vertex> stack) {
+    if (n) --n;
+    else   return p;
 
-int main() {
-    int _north, _east, _west, _south;
-    cin >> n >> _north >> _east >> _west >> _south;
-    north = _north / 100;
-    east = _east / 100;
-    west = _west / 100;
-    south = _south / 100;
+    Vertex prev;
+    if (stack.begin() == stack.end()) prev = {0, 0};
+    else                              prev = *--stack.end();
+
+    Vertex northVertex = {prev.x, prev.y + 1};
+    Vertex eastVertex = {prev.x + 1, prev.y};
+    Vertex westVetex = {prev.x - 1, prev.y};
+    Vertex southVertex = {prev.x, prev.y - 1};
+
+    bool northContained = contains(stack, northVertex);
+    bool eastContained = contains(stack, eastVertex);
+    bool westContained = contains(stack, westVetex);
+    bool southContained = contains(stack, southVertex);
 
     long double ans = 0.0;
-    Direction allCases[] = {NORTH, EAST, WEST, SOUTH};
-    for (Direction e: allCases) ans += calculateProbability(n, e);
+    if (!contains(stack, northVertex)) {
+        stack.push_back(northVertex);
+        ans += calculateProbability(n, p * north, stack);
+        stack.pop_back();
+    }
 
-    cout << ans << endl;
+    if (!contains(stack, eastVertex)) {
+        stack.push_back(eastVertex);
+        ans += calculateProbability(n, p * east, stack);
+        stack.pop_back();
+    }
+
+    if (!contains(stack, westVetex)) {
+        stack.push_back(westVetex);
+        ans += calculateProbability(n, p * west, stack);
+        stack.pop_back();
+    }
+
+    if (!contains(stack, southVertex)) {
+        stack.push_back(southVertex);
+        ans += calculateProbability(n, p * south, stack);
+        stack.pop_back();
+    }
+
+    return ans;
+}
+
+int main() {
+    cin >> n >> north >> east >> west >> south;
+    north /= 100; east /= 100; west /= 100; south /= 100;
+
+    long double ans = calculateProbability(n, 1, vector<Vertex>());
+    printf("%Lf\n", ans);
 
     return 0;
 }
