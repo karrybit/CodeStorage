@@ -7,12 +7,11 @@ int main() {
     int a, b, c, x, y;
     cin >> a >> b >> c >> x >> y;
 
-    // ab2枚のコストとa+bのコストの大小が鍵
+    // c2枚のコストとa+bのコストの大小が鍵
     int cc = c * 2;
     int ab = a + b;
 
-    // c2枚とa+bの比較すれば即買いの枚数を計算
-    // というか共通した枚数を計算、zとする
+    // xとyの共通の枚数を計算
     int z = min(x, y);
 
     unsigned long long ans = 0;
@@ -23,6 +22,7 @@ int main() {
     // c2枚買って余らせるより、bを素直に買ったほうが安いなら、その方が良いよね
     ans += b <= cc ? (y - z) * b : (y - z) * cc;
 
+    // Oh! Yes! pizza!!!
     cout << ans << endl;
 
     return 0;
