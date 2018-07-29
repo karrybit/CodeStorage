@@ -4,28 +4,24 @@
 
 using namespace std;
 
-int enumerateDigits(unsigned long long int target) {
-    int digits = 0;
-    for (; target > 0; target /= 10) ++digits;
-    return digits;
-}
-
 int main() {
-    unsigned long long int n;
+    unsigned long long n;
     cin >> n;
 
-    unsigned long long int sqrtN = (long)sqrt(n);
+    unsigned long long sqrtN = (long)sqrt(n);
     
-    unsigned long long int _quotient = 0;
-    unsigned long long int _remainder = 0;
-    for (int i = 1; i <= sqrtN; ++i) {
+    unsigned int _quotient = 0;
+    unsigned int _remainder = 0;
+    for (int i = sqrtN; i > 0; --i) {
         if (n % i == 0) {
             _quotient = i;
             _remainder = n / i;
+            break;
         }
     }
 
-    cout << max(enumerateDigits(_quotient), enumerateDigits(_remainder)) << endl;
+    int ans = max((int)log10(_quotient)+1, (int)log10(_remainder)+1);
+    cout << ans << endl;
 
     return 0;
 }
