@@ -16,7 +16,6 @@ int main() {
     }
 
     int minT, maxT;
-    minT = maxT = 0;
 
     for (int i = 0; i < n; ++i) {
         minT = max(minT, min(v[i], L - v[i]));
