@@ -4,6 +4,7 @@ import (
 	"../token"
 )
 
+// Lexer 実体
 type Lexer struct {
 	input        string
 	position     int  // 入力における現在の位置（現在の文字を指し示す）
@@ -11,6 +12,7 @@ type Lexer struct {
 	ch           byte // 現在検査中の文字
 }
 
+// New Lexerを初期化します
 func New(input string) *Lexer {
 	l := &Lexer{input: input}
 	l.readChar()
@@ -21,6 +23,7 @@ func newToken(tokenType token.TokenType, ch byte) token.Token {
 	return token.Token{Type: tokenType, Literal: string(ch)}
 }
 
+// NextToken 字句解析
 func (l *Lexer) NextToken() token.Token {
 	var tok token.Token
 
@@ -98,7 +101,7 @@ func (l *Lexer) readChar() {
 		l.ch = l.input[l.readPosition]
 	}
 	l.position = l.readPosition
-	l.readPosition += 1
+	l.readPosition++
 }
 
 func (l *Lexer) peekChar() byte {
