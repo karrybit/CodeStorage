@@ -2,7 +2,7 @@ package ast
 
 import "../token"
 
-// Node Tokenとどう絡むんだ？
+// Node 構文木のNode
 type Node interface {
 	TokenLiteral() string
 }
@@ -19,7 +19,7 @@ type Expression interface {
 	expressionNode()
 }
 
-// Program なんだこれは
+// Program 文の集合、つまりプログラムそのもの
 type Program struct {
 	Statements []Statement
 }
@@ -32,23 +32,35 @@ func (p *Program) TokenLiteral() string {
 	return ""
 }
 
-// Identifier Valueが謎ですね...
+// Identifier 変数
 type Identifier struct {
 	Token token.Token // token.IDENT トークン
 	Value string
 }
 
-// TokenLiteral IdentifierのTokenのLiteralを返却する
+// TokenLiteral IdentifierのTokenのLiteralを（変数名（可変））を返却する
 func (i *Identifier) TokenLiteral() string { return i.Token.Literal }
-func (i *Identifier) expressionNode()      {}
 
-// LetStatement LET文
+// 変数それ自体は値を返却するので、expressionNodeを実装する
+func (i *Identifier) expressionNode() {}
+
+// LetStatement let文
 type LetStatement struct {
-	Token token.Token // token.LET トークン
-	Name  *Identifier
-	Value Expression
+	Token token.Token // 'let' トークン
+	Name  *Identifier // 変数名
+	Value Expression  // 式
 }
 
-// TokenLiteral "LET"を返却する
+// TokenLiteral LetStatementのTokenのLiteralを（"let"）を返却する
 func (ls *LetStatement) TokenLiteral() string { return ls.Token.Literal }
 func (ls *LetStatement) statementNode()       {}
+
+// ReturnStatement return文
+type ReturnStatement struct {
+	Token       token.Token // 'return' トークン
+	ReturnValue Expression  // returnする内容(= 式)
+}
+
+// TokenLiteral ReturnStatementのTokenのLiteralを（"return"）を返却する
+func (rs *ReturnStatement) TokenLiteral() string { return rs.Token.Literal }
+func (rs *ReturnStatement) statementNode()       {}
