@@ -12,7 +12,7 @@ type Token struct {
 const (
 	// ILLEGAL 不正値
 	ILLEGAL = "ILLEGAL"
-	// EOF 行末
+	// EOF End Of File
 	EOF = "EOF"
 
 	// IDENT 識別子
