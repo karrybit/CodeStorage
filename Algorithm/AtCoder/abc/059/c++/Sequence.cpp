@@ -4,24 +4,40 @@ using namespace std;
 
 int main() {
     int n; cin >> n;
-    long long ans, sum;
-    ans = sum = 0;
-    bool isOldSumPositive = false;
-    bool isNewSumPositive = false;
+
+    long long cnt, sum;
+
+    int a = 0;
     for (int i = 0; i < n; ++i) {
-        long long a; cin >> a;
-        isOldSumPositive = sum > 0;
-        sum += a;
-        isNewSumPositive = sum > 0;
+        cin >> a;
+        int peek = sum + a;
 
-        if (!i) continue;
+        if (sum > 0) {
+            // sum is positive
+            if (peek > 0) {
+                // peek is positive
+                
+                // needs count up
 
-        if (isOldSumPositive == isNewSumPositive) {
+            } else {
+                // peek is negative
+                // it meets the conditions
+            }
 
-        } 
+        } else {
+            // Negative
+            if (peek > 0) {
+                // peek is positive
+                // it meets the conditions
+            } else {
+                // peek is negative
+
+                // needs count up
+
+            }
+        }
+        // peekの符号判定
     }
-
-
 
     return 0;
 }
