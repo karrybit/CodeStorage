@@ -121,8 +121,6 @@ type ExpressionStatement struct {
 func (es *ExpressionStatement) TokenLiteral() string { return es.Token.Literal }
 // String ExpressionStatementを文字列化する（e.g.）"10"）
 func (es *ExpressionStatement) String() string {
-	var out bytes.Buffer
-
 	if es.Expression != nil {
 		return es.Expression.String()
 	}
