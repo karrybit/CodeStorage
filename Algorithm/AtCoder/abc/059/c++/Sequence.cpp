@@ -1,68 +1,41 @@
-#include<cstdio>
-#include<cstdlib>
-#include<vector>
-
+#include <iostream>
+#include <complex>
 
 using namespace std;
 
+int main() {
+    int n; cin >> n;
 
-typedef long long ll;
+    int a; cin >> a;
+    long long sum = a;
+    long long cnt = 0;
 
+    for (int i = 1; i < n; ++i) {
+        cin >> a;
+        int next = sum + a;
+        int c, diff;
+        c = diff = 0;
 
-int n;
-vector<int> a;
+        if (sum > 0) {
+            if (next > 0) {
+                diff = (-1 - sum);
+                a = diff - a;
+                c = diff;
+            }
 
-int sign(int v)
-{
-	if(v<0) return -1;
-	return v>0;
-}
+        } else {
+            if (next <= 0) {
+                diff = (1 - sum) - a;
+                a += diff;
+                c = diff;
+            }
+        }
 
+        sum += a;
+        cnt += abs(c);
+    }
 
-ll solve(int chk_sign)
-{
-	ll count=0;
-	int sum=0, add, prev_sum;
+    cout << cnt << endl;
 
-	prev_sum=chk_sign;
-	for(int i=0;i<n;i++)
-	{
-		sum+=a[i];
-		if(prev_sum<0 && sum<=0)
-		{
-			add=-sum+1;
-			sum+=add;
-			count+=llabs(add);
-		}
-		if(prev_sum>0 && sum>=0)
-		{
-			add=-sum-1;
-			sum+=add;
-			count+=llabs(add);
-		}
-		prev_sum=sum;
-	}
-	return count;
-}
-
-
-ll min(ll a, ll b)
-{
-	if(a<b) return a;
-	return b;
-}
-
-
-int main(void)
-{
-	while(scanf("%d", &n)==1)
-	{
-		a.resize(n);
-		for(int i=0;i<n;i++)
-		{
-			scanf("%d", &a[i]);
-		}
-		printf("%lld\n", min(solve(1), solve(-1)));
-	}
-	return 0;
+    return 0;
 }
