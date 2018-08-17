@@ -1,43 +1,68 @@
-#include <iostream>
+#include<cstdio>
+#include<cstdlib>
+#include<vector>
+
 
 using namespace std;
 
-int main() {
-    int n; cin >> n;
 
-    long long cnt, sum;
+typedef long long ll;
 
-    int a = 0;
-    for (int i = 0; i < n; ++i) {
-        cin >> a;
-        int peek = sum + a;
 
-        if (sum > 0) {
-            // sum is positive
-            if (peek > 0) {
-                // peek is positive
-                
-                // needs count up
+int n;
+vector<int> a;
 
-            } else {
-                // peek is negative
-                // it meets the conditions
-            }
+int sign(int v)
+{
+	if(v<0) return -1;
+	return v>0;
+}
 
-        } else {
-            // Negative
-            if (peek > 0) {
-                // peek is positive
-                // it meets the conditions
-            } else {
-                // peek is negative
 
-                // needs count up
+ll solve(int chk_sign)
+{
+	ll count=0;
+	int sum=0, add, prev_sum;
 
-            }
-        }
-        // peekの符号判定
-    }
+	prev_sum=chk_sign;
+	for(int i=0;i<n;i++)
+	{
+		sum+=a[i];
+		if(prev_sum<0 && sum<=0)
+		{
+			add=-sum+1;
+			sum+=add;
+			count+=llabs(add);
+		}
+		if(prev_sum>0 && sum>=0)
+		{
+			add=-sum-1;
+			sum+=add;
+			count+=llabs(add);
+		}
+		prev_sum=sum;
+	}
+	return count;
+}
 
-    return 0;
+
+ll min(ll a, ll b)
+{
+	if(a<b) return a;
+	return b;
+}
+
+
+int main(void)
+{
+	while(scanf("%d", &n)==1)
+	{
+		a.resize(n);
+		for(int i=0;i<n;i++)
+		{
+			scanf("%d", &a[i]);
+		}
+		printf("%lld\n", min(solve(1), solve(-1)));
+	}
+	return 0;
 }
