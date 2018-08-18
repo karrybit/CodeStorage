@@ -168,3 +168,27 @@ func (pe *PrefixExpression) String() string {
 	return out.String()
 }
 func (pe *PrefixExpression) expressionNode() {}
+
+// InfixExpression 中置演算子
+type InfixExpression struct {
+	Token    token.Token
+	Left     Expression
+	Operator string
+	Right    Expression
+}
+
+// TokenLiteral InfixExpressionのTokenのLiteralを（"+"）を返却する
+func (oe *InfixExpression) TokenLiteral() string { return oe.Token.Literal }
+
+// String InfixExpressionを文字列化する（e.g.）"(5 + 5)"）
+func (oe *InfixExpression) String() string {
+	var out bytes.Buffer
+	out.WriteString("(")
+	out.WriteString(oe.Left.String())
+	out.WriteString(" " + oe.Operator + " ")
+	out.WriteString(oe.Right.String())
+	out.WriteString(")")
+
+	return out.String()
+}
+func (oe *InfixExpression) expressionNode() {}
