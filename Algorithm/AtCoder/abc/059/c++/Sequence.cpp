@@ -1,41 +1,50 @@
-#include <iostream>
-#include <complex>
+#include <cstdio>
+#include <cstdlib>
+#include <vector>
+#include <algorithm>
 
 using namespace std;
 
-int main() {
-    int n; cin >> n;
+typedef long long ll;
 
-    int a; cin >> a;
-    long long sum = a;
-    long long cnt = 0;
+/// input
+int n;
+vector<ll> v;
 
-    for (int i = 1; i < n; ++i) {
-        cin >> a;
-        int next = sum + a;
-        int c, diff;
-        c = diff = 0;
+ll solve(int iv) {
+    ll cnt, sum, prevSum, add;
+    cnt = sum = add = 0;
+    prevSum = iv;
 
-        if (sum > 0) {
-            if (next > 0) {
-                diff = (-1 - sum);
-                a = diff - a;
-                c = diff;
-            }
+    for (int i = 0; i < n; ++i) {
+        sum += v[i];
 
-        } else {
-            if (next <= 0) {
-                diff = (1 - sum) - a;
-                a += diff;
-                c = diff;
-            }
+        if (prevSum < 0 && sum <= 0) {
+            add = -sum + 1;
+            sum += add;
+            cnt += llabs(add);
+
+        } else if (prevSum > 0 && sum >= 0) {
+            add = -sum - 1;
+            sum += add;
+            cnt += llabs(add);
         }
 
-        sum += a;
-        cnt += abs(c);
+        prevSum = sum;
     }
 
-    cout << cnt << endl;
+    return cnt;
+}
+
+int main() {
+    scanf("%d", &n);
+
+    for (int i = 0; i < n; ++i) {
+        int a; scanf("%d", &a);
+        v.push_back(a);
+    }
+
+    printf("%lld\n", min(solve(1), solve(-1)));
 
     return 0;
 }
