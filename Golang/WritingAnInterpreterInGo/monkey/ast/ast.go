@@ -55,8 +55,10 @@ type Identifier struct {
 
 // TokenLiteral IdentifierのTokenのLiteralを（変数名（可変））を返却する
 func (i *Identifier) TokenLiteral() string { return i.Token.Literal }
+
 // String Identifierを文字列化する（e.g.）"hoge"）
 func (i *Identifier) String() string { return i.Value }
+
 // 変数それ自体は値を返却するので、expressionNodeを実装する
 func (i *Identifier) expressionNode() {}
 
@@ -69,6 +71,7 @@ type LetStatement struct {
 
 // TokenLiteral LetStatementのTokenのLiteralを（"let"）を返却する
 func (ls *LetStatement) TokenLiteral() string { return ls.Token.Literal }
+
 // String LetStatementを文字列化する（e.g.）"let hoge = 10;"）
 func (ls *LetStatement) String() string {
 	var out bytes.Buffer
@@ -85,7 +88,7 @@ func (ls *LetStatement) String() string {
 
 	return out.String()
 }
-func (ls *LetStatement) statementNode()       {}
+func (ls *LetStatement) statementNode() {}
 
 // ReturnStatement return文
 type ReturnStatement struct {
@@ -95,12 +98,13 @@ type ReturnStatement struct {
 
 // TokenLiteral ReturnStatementのTokenのLiteralを（"return"）を返却する
 func (rs *ReturnStatement) TokenLiteral() string { return rs.Token.Literal }
+
 // String ReturnStatementを文字列化する（e.g.）"return 10;"）
 func (rs *ReturnStatement) String() string {
 	var out bytes.Buffer
 
 	out.WriteString(rs.TokenLiteral() + " ")
-	
+
 	if rs.ReturnValue != nil {
 		out.WriteString(rs.ReturnValue.String())
 	}
@@ -109,16 +113,17 @@ func (rs *ReturnStatement) String() string {
 
 	return out.String()
 }
-func (rs *ReturnStatement) statementNode()       {}
+func (rs *ReturnStatement) statementNode() {}
 
 // ExpressionStatement 式文
 type ExpressionStatement struct {
-	Token 	   token.Token // 式の最初のトークン
+	Token      token.Token // 式の最初のトークン
 	Expression Expression
 }
 
 // TokenLiteral ExpressionStatementのTokenのLiteralを（"return"）を返却する
 func (es *ExpressionStatement) TokenLiteral() string { return es.Token.Literal }
+
 // String ExpressionStatementを文字列化する（e.g.）"10"）
 func (es *ExpressionStatement) String() string {
 	if es.Expression != nil {
@@ -127,4 +132,17 @@ func (es *ExpressionStatement) String() string {
 
 	return ""
 }
-func (es *ExpressionStatement) statementNode()	     {}
+func (es *ExpressionStatement) statementNode() {}
+
+// IntegerLiteral 整数リテラル
+type IntegerLiteral struct {
+	Token token.Token
+	Value int64
+}
+
+// TokenLiteral IntegerLiteralのTokenのLiteralを（"5"）を返却する
+func (il *IntegerLiteral) TokenLiteral() string { return il.Token.Literal }
+
+// String IntegerLiteralのTokenのLiteralを（"5"）を返却する
+func (il *IntegerLiteral) String() string  { return il.Token.Literal }
+func (il *IntegerLiteral) expressionNode() {}
