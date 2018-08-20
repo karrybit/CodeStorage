@@ -4,19 +4,30 @@
 PROBLEM=$2
 # ケース番号
 TEST_NUMBER=$3
+# 実行場所（物理）
+IS_HOME=$4
 
 # テストディレクトリ
-TEST_HOME=$HOME/Develop/CodeStorage/Algorithm/Cheetah/test
-# テストケースのパス
-TEST_PATH=$TEST_HOME/chapter$1
-# 実行ファイルのパス
-EXEC_PATH=$HOME/Develop/CodeStorage/Algorithm/Cheetah/chapter$1
+if [ $IS_HOME = "true" ]; then
+    TEST_HOME=$HOME/Develop/CodeStorage/Algorithm/Cheetah/test
+    # テストケースのパス
+    TEST_PATH=$TEST_HOME/chapter$1
+    # 実行ファイルのパス
+    EXEC_PATH=$HOME/Develop/CodeStorage/Algorithm/Cheetah/chapter$1
+else
+    TEST_HOME=$HOME/Develop/GitHub/CodeStorage/Algorithm/Cheetah/test
+    # テストケースのパス
+    TEST_PATH=$TEST_HOME/chapter$1
+    # 実行ファイルのパス
+    EXEC_PATH=$HOME/Develop/GitHub/CodeStorage/Algorithm/Cheetah/chapter$1
+fi
 
 if [ $1 = "help" ]; then
-    echo "you must input 3 arguments."
+    echo "you must input 4 arguments."
     echo "  * arg1: ChapterNumber"
     echo "  * arg2: ProblemName"
     echo "  * arg3: CaseNumber or \"all\""
+    echo "  * arg4: if you exec in home then \"true\" else \"false\""
     exit 0
 fi
 
@@ -76,6 +87,6 @@ else
 # 引数がallの場合
     for i in $(seq 0 ${FILES})
     do
-        sh $0 $1 $2 $i
+        sh $0 $1 $2 $i $4
     done
 fi

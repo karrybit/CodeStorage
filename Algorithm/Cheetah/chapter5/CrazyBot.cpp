@@ -1,71 +1,44 @@
-#include <iostream>
-#include <vector>
-#include <stdio.h>
+#include <cstdio>
 
 using namespace std;
 
-using Vertex = struct { int x, y; };
+bool grid[100][100] = {false};
+int vx[] = {1, -1, 0, 0};
+int vy[] = {0, 0, 1, -1};
+double prob[4];
 
-int n;
-long double north, east, west, south;
+double dfs(int x, int y, int n) {
+    if (grid[x][y]) return 0;
+    if (n == 0) return 1;
 
-bool contains(vector<Vertex> stack, Vertex target) {
-    for (auto it = stack.begin(); it != stack.end(); it++) if (target.x == it->x && target.y == it->y) return true;
-    return false;
+    grid[x][y] = true;
+    double ret = 0;
+    for (int i = 0; i < 4; ++i) {
+        ret += dfs(x + vx[i], y + vy[i], n - 1) * prob[i];
+    }
+
+    grid[x][y] = false;
+
+    return ret;
 }
 
-long double calculateProbability(int n, long double p, vector<Vertex> stack) {
-    if (n) --n;
-    else   return p;
+double getProbability(int n, int east, int west, int south, int north) {
+    prob[0] = east  / 100.0;
+    prob[1] = west  / 100.0;
+    prob[2] = south / 100.0;
+    prob[3] = north / 100.0;
 
-    Vertex prev;
-    if (stack.begin() == stack.end()) prev = {0, 0};
-    else                              prev = *--stack.end();
-
-    Vertex northVertex = {prev.x, prev.y + 1};
-    Vertex eastVertex = {prev.x + 1, prev.y};
-    Vertex westVetex = {prev.x - 1, prev.y};
-    Vertex southVertex = {prev.x, prev.y - 1};
-
-    bool northContained = contains(stack, northVertex);
-    bool eastContained = contains(stack, eastVertex);
-    bool westContained = contains(stack, westVetex);
-    bool southContained = contains(stack, southVertex);
-
-    long double ans = 0.0;
-    if (!contains(stack, northVertex)) {
-        stack.push_back(northVertex);
-        ans += calculateProbability(n, p * north, stack);
-        stack.pop_back();
-    }
-
-    if (!contains(stack, eastVertex)) {
-        stack.push_back(eastVertex);
-        ans += calculateProbability(n, p * east, stack);
-        stack.pop_back();
-    }
-
-    if (!contains(stack, westVetex)) {
-        stack.push_back(westVetex);
-        ans += calculateProbability(n, p * west, stack);
-        stack.pop_back();
-    }
-
-    if (!contains(stack, southVertex)) {
-        stack.push_back(southVertex);
-        ans += calculateProbability(n, p * south, stack);
-        stack.pop_back();
-    }
-
-    return ans;
+    return dfs(50, 50, n);
 }
 
 int main() {
-    cin >> n >> north >> east >> west >> south;
-    north /= 100; east /= 100; west /= 100; south /= 100;
-
-    long double ans = calculateProbability(n, 1, vector<Vertex>());
-    printf("%Lf\n", ans);
-
+    int n, east, west, south, north;
+    scanf("%d", &n);
+    scanf("%d", &east);
+    scanf("%d", &west);
+    scanf("%d", &south);
+    scanf("%d", &north);
+    double probability = getProbability(n, east, west, south, north);
+    printf("%fd\n", probability);
     return 0;
 }
