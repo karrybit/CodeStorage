@@ -192,3 +192,16 @@ func (oe *InfixExpression) String() string {
 	return out.String()
 }
 func (oe *InfixExpression) expressionNode() {}
+
+// Boolean 真偽値
+type Boolean struct {
+	Token token.Token
+	Value bool
+}
+
+// TokenLiteral BooleanのTokenのLiteralを（"true"）を返却する
+func (b *Boolean) TokenLiteral() string { return b.Token.Literal }
+
+// String BooleanのTokenのLiteralを（"true"）を返却する
+func (b *Boolean) String() string  { return b.Token.Literal }
+func (b *Boolean) expressionNode() {}
