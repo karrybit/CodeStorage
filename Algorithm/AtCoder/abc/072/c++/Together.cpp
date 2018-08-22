@@ -1,26 +1,22 @@
 #include <cstdio>
-#include <vector>
 #include <algorithm>
 
 using namespace std;
 
 int main() {
     int n; scanf("%d", &n);
-    vector<int> vc;
+    int map[100100] = {0};
     for (int i = 0; i < n; ++i) {
         int a; scanf("%d", &a);
-        vc.push_back(a);
+        ++map[a];
+        if (a > 0) ++map[a + 1];
+        if (a < 100100) ++map[a - 1];
     }
 
-    sort(vc.begin(), vc.end());
-    int median = vc[n/2];
+    int ans = 0;
+    for (int i = 0; i < 100100; ++i) ans = max(ans, map[i]);
 
-    int cnt = 0;
-    for(int e: vc) {
-        if (median - 1 <= e && e <= median + 1) cnt++;
-    }
-
-    printf("%d\n", cnt);
+    printf("%d\n", ans);
 
     return 0;
 }
