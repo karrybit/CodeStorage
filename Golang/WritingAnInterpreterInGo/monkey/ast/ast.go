@@ -205,3 +205,52 @@ func (b *Boolean) TokenLiteral() string { return b.Token.Literal }
 // String BooleanのTokenのLiteralを（"true"）を返却する
 func (b *Boolean) String() string  { return b.Token.Literal }
 func (b *Boolean) expressionNode() {}
+
+// IfExpression if文
+type IfExpression struct {
+	Token       token.Token
+	Condition   Expression
+	Consequence *BlockStatement
+	Alternative *BlockStatement
+}
+
+// TokenLiteral IfExpressionのTokenのLiteralを（"if"）を返却する
+func (ie *IfExpression) TokenLiteral() string { return ie.Token.Literal }
+
+// String IfExpressionのif-elseそれぞれの文を文字列化して返却する
+func (ie *IfExpression) String() string {
+	var out bytes.Buffer
+
+	out.WriteString("if")
+	out.WriteString(ie.Condition.String())
+	out.WriteString(" ")
+	out.WriteString(ie.Consequence.String())
+
+	if ie.Alternative != nil {
+		out.WriteString(ie.Alternative.String())
+	}
+
+	return out.String()
+}
+func (ie *IfExpression) expressionNode() {}
+
+// BlockStatement .
+type BlockStatement struct {
+	Token      token.Token
+	Statements []Statement
+}
+
+// TokenLiteral BlockStatementのTokenのLiteralを（"if"）を返却する
+func (bs *BlockStatement) TokenLiteral() string { return bs.Token.Literal }
+
+// String BlockStatementを文字列化して返却する
+func (bs *BlockStatement) String() string {
+	var out bytes.Buffer
+
+	for _, s := range bs.Statements {
+		out.WriteString(s.String())
+	}
+
+	return out.String()
+}
+func (bs *BlockStatement) expressionNode() {}
