@@ -206,7 +206,7 @@ func (b *Boolean) TokenLiteral() string { return b.Token.Literal }
 func (b *Boolean) String() string  { return b.Token.Literal }
 func (b *Boolean) expressionNode() {}
 
-// IfExpression if文
+// IfExpression if式
 type IfExpression struct {
 	Token       token.Token
 	Condition   Expression
