@@ -13,6 +13,7 @@ int ans = 0;
 void nonAlgorithm(int, int, int);
 int recursiceNonMemo(int, int);
 int memo(int, int);
+void dp();
 
 int main() {
     int mode; cin >> mode;
@@ -56,6 +57,17 @@ int main() {
         cout << "[memo]" << endl;
         cout << "ans: " << ans << endl;
         cout << "time: " << msec << " ms" << endl;
+
+    } else {
+        auto start = chrono::system_clock::now();
+        dp();
+        auto end = chrono::system_clock::now();
+
+        auto msec = chrono::duration_cast<chrono::milliseconds>(end - start).count();
+        
+        cout << "[dynamic planning]" << endl;
+        cout << "ans: " << ans << endl;
+        cout << "time: " << msec << " ms" << endl;
     }
 
     return 0;
@@ -80,4 +92,15 @@ int memo(int n, int w) {
     if (n >= 5) return 0;
     if (table[n][w] >= 0) return table[n][w];
     return table[n][w] = max(memo(n + 1, w), memo(n + 1, w + weights[n]) + prices[n]);
+}
+
+void dp() {
+    for (int i = 0; i <= 5; ++i) {
+        for (int j = 0; j <= maxw; ++j) {
+            if (j + weights[i] <= maxw) {
+                table[i + 1][j + weights[i]] = max(table[i + 1][j + weights[i]], table[i][j] + prices[j]);
+                ans = max(table[i + 1][j + weights[i]], ans);
+            }
+        }
+    }
 }
