@@ -19,12 +19,6 @@ int main() {
     int mode; cin >> mode;
     cout << "" << endl;
 
-    for (int i = 0; i < 6; ++i) {
-        for (int j = 0; j < 11; ++j) {
-            table[i][j] = -1;
-        }
-    }
-
     if (mode == 0) {
         auto start = chrono::system_clock::now();
         nonAlgorithm(0, 0, 0);
@@ -37,6 +31,12 @@ int main() {
         cout << "time: " << msec << " ms" << endl;
 
     } else if (mode == 1) {
+        for (int i = 0; i < 6; ++i) {
+            for (int j = 0; j < 11; ++j) {
+                table[i][j] = -1;
+            }
+        }
+
         auto start = chrono::system_clock::now();
         ans = recursiceNonMemo(0, 0);
         auto end = chrono::system_clock::now();
@@ -48,6 +48,12 @@ int main() {
         cout << "time: " << msec << " ms" << endl;
 
     } else if (mode == 2) {
+        for (int i = 0; i < 6; ++i) {
+            for (int j = 0; j < 11; ++j) {
+                table[i][j] = -1;
+            }
+        }
+
         auto start = chrono::system_clock::now();
         ans = memo(0, 0);
         auto end = chrono::system_clock::now();
@@ -59,6 +65,12 @@ int main() {
         cout << "time: " << msec << " ms" << endl;
 
     } else {
+        for (int i = 0; i < 6; ++i) {
+            for (int j = 0; j < 11; ++j) {
+                table[i][j] = 0;
+            }
+        }
+
         auto start = chrono::system_clock::now();
         dp();
         auto end = chrono::system_clock::now();
@@ -95,12 +107,5 @@ int memo(int n, int w) {
 }
 
 void dp() {
-    for (int i = 0; i <= 5; ++i) {
-        for (int j = 0; j <= maxw; ++j) {
-            if (j + weights[i] <= maxw) {
-                table[i + 1][j + weights[i]] = max(table[i + 1][j + weights[i]], table[i][j] + prices[j]);
-                ans = max(table[i + 1][j + weights[i]], ans);
-            }
-        }
-    }
+    /// やり直し！！！
 }
