@@ -2,6 +2,7 @@ package ast
 
 import (
 	"bytes"
+	"strings"
 
 	"../token"
 )
@@ -254,3 +255,32 @@ func (bs *BlockStatement) String() string {
 	return out.String()
 }
 func (bs *BlockStatement) expressionNode() {}
+
+// FunctionLiteral 関数リテラル
+type FunctionLiteral struct {
+	Token      token.Token
+	Parameters []*Identifier
+	Body       *BlockStatement
+}
+
+// TokenLiteral FunctionLiteralのTokenのLiteralを（"fn"）を返却する
+func (fl *FunctionLiteral) TokenLiteral() string { return fl.Token.Literal }
+
+// String BlockStatementを文字列化して返却する
+func (fl *FunctionLiteral) String() string {
+	var out bytes.Buffer
+
+	params := []string{}
+	for _, p := range fl.Parameters {
+		params = append(params, p.String())
+	}
+
+	out.WriteString(fl.TokenLiteral())
+	out.WriteString("(")
+	out.WriteString(strings.Join(params, ","))
+	out.WriteString(")")
+	out.WriteString(fl.Body.String())
+
+	return out.String()
+}
+func (fl *FunctionLiteral) expressionNode() {}
