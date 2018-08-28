@@ -107,5 +107,12 @@ int memo(int n, int w) {
 }
 
 void dp() {
-    /// やり直し！！！
+    for (int i = 1; i <= 5; ++i) {
+        for (int j = 0; j <= 10; ++j) {
+            if (j + weights[i - 1] <= 10) {
+                table[i][j + weights[i - 1]] = max(table[i - 1][j], table[i - 1][j] + prices[i - 1]);
+                ans = max(ans, table[i][j + weights[i - 1]]);
+            }
+        }
+    }
 }
