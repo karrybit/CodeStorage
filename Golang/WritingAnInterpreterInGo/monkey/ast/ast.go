@@ -284,3 +284,31 @@ func (fl *FunctionLiteral) String() string {
 	return out.String()
 }
 func (fl *FunctionLiteral) expressionNode() {}
+
+// CallExpression 関数呼び出し
+type CallExpression struct {
+	Token     token.Token
+	Function  Expression
+	Arguments []Expression
+}
+
+// TokenLiteral CallExpressionのTokenのLiteralを（"("）を返却する
+func (ce *CallExpression) TokenLiteral() string { return ce.Token.Literal }
+
+// String CallExpressionを文字列化して返却する
+func (ce *CallExpression) String() string {
+	var out bytes.Buffer
+
+	args := []string{}
+	for _, a := range ce.Arguments {
+		args = append(args, a.String())
+	}
+
+	out.WriteString(ce.Function.String())
+	out.WriteString("(")
+	out.WriteString(strings.Join(args, ", "))
+	out.WriteString(")")
+
+	return out.String()
+}
+func (ce *CallExpression) expressionNode() {}
