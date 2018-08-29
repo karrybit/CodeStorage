@@ -25,36 +25,21 @@ int main() {
 }
 
 void calcPrime() {
-    prime[2] = true;
-    sum[2] = 1;
+    for (int i = 0; i < MAX; ++i) prime[i] = true;
+    prime[0] = prime[1] = false;
 
-    for (int p = 3; p < MAX; ++p) {
-
-        // 合成数かどうか
-        bool isComposite = false;
-
-        // 判定
-        for (int q = 2; q * q < p; ++q) {
-            isComposite = p % q == 0;
-
-            // 割り切れる（＝合成数）なら、素数じゃないためbreakする
-            if (isComposite) break;
+    for (int i = 2; i * i < MAX; ++i) {
+        if (!prime[i]) continue;
+        for (int j = i; j * i < MAX; ++j) {
+            prime[i * j] = false;
         }
+    }
 
-        // 素数にtrueを立てるため、反転させる
-        prime[p] = !isComposite;
-
-        if (prime[p]) {
-            // 素数 || 2017
-            sum[p] = sum[p - 1] + (isPrime(p) ? 1 : 0);
-
-        } else {
-            // 合成数 && (not 2017)
-            sum[p] = sum[p - 1];
-        }
+    for (int i = 0; i < MAX; ++i) {
+        sum[i] = sum[i - 1] + (isPrime(i) ? 1 : 0);
     }
 }
 
-bool isPrime(int i) {
-    return prime[i] && prime[(i + 1) / 2];
+bool isPrime(int x) {
+    return prime[x] && prime[(x + 1) / 2];
 }
