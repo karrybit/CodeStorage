@@ -209,7 +209,7 @@ func (b *Boolean) expressionNode() {}
 
 // IfExpression if式
 type IfExpression struct {
-	Token       token.Token
+	Token       token.Token // if
 	Condition   Expression
 	Consequence *BlockStatement
 	Alternative *BlockStatement
@@ -258,7 +258,7 @@ func (bs *BlockStatement) expressionNode() {}
 
 // FunctionLiteral 関数リテラル
 type FunctionLiteral struct {
-	Token      token.Token
+	Token      token.Token // fn
 	Parameters []*Identifier
 	Body       *BlockStatement
 }
@@ -287,9 +287,9 @@ func (fl *FunctionLiteral) expressionNode() {}
 
 // CallExpression 関数呼び出し
 type CallExpression struct {
-	Token     token.Token
-	Function  Expression
-	Arguments []Expression
+	Token     token.Token  // (
+	Function  Expression   // 関数名（識別子）
+	Arguments []Expression // 引数群
 }
 
 // TokenLiteral CallExpressionのTokenのLiteralを（"("）を返却する
