@@ -9,7 +9,12 @@ import (
 )
 
 func main() {
+	r := newRoom()
 	http.Handle("/", &templateHandler{filename: "chat.html"})
+	http.Handle("/room", r)
+
+	// チャットルームを開始します
+	go r.run()
 
 	// Webサーバーを開始します
 	if err := http.ListenAndServe(":8080", nil); err != nil {
