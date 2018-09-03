@@ -13,7 +13,7 @@
             <textarea></textarea>
             <input type="submit" value="送信" />
         </form>
-        <script src0"//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script>
             $(function() {
                 var socket = null;
@@ -33,7 +33,7 @@
                 if (!window["WebSocket"]) {
                     alert("エラー：WebSocketに対応していないブラウザです。")
                 } else {
-                    socket = new WebSocket("ws://localhost:8080/room");
+                    socket = new WebSocket("ws://{{.Host}}/room");
                     socket.onclose = function() {
                         alert("接続が終了しました。");
                     }
