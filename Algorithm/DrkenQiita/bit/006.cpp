@@ -22,7 +22,9 @@ int main() {
         }
 
         // bit の表す集合の出力
-        cout << bit << ": {";
+        if (bit < 10) cout << bit << ":  { ";
+        else          cout << bit << ": { ";
+        
         for (int i = 0; i < (int)S.size(); ++i) {
             cout << S[i] << " ";
         }
