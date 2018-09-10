@@ -18,10 +18,8 @@ int main() {
     vector<long> vc;
     for (int i = 0; i < N; ++i) {
         long x; cin >> x;
-        vc.push_back(x);
+        vc.push_back(abs(x - X));
     }
-
-    for (long &e: vc) e = abs(e - X);
 
     long ans = vc[0];
     for (int i = 1; i < N; ++i) ans = gcd(ans, vc[i]);

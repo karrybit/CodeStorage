@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <algorithm>
 
 using namespace std;
 
@@ -19,15 +20,11 @@ int main() {
             continue;
         } 
 
-        for (string e: vc) {
-            if (str == e) {
-                ok = false;
-                continue;
-            }
-        }
+        auto result = find(vc.begin(), vc.end(), str);
+        ok = result == vc.end();
 
         vc.push_back(str);
-        c = str[str.size() - 1];
+        c = str.back();
     }
 
     cout << (ok ? "Yes" : "No") << endl;
