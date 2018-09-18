@@ -49,12 +49,16 @@ type (
 	infixParseFn  func(ast.Expression) ast.Expression
 )
 
+var isTrace bool
+
 // New Parserの初期化
-func New(l *lexer.Lexer) *Parser {
+func New(l *lexer.Lexer, trasing bool) *Parser {
 	p := &Parser{
 		l:      l,
 		errors: []string{},
 	}
+
+	isTrace = trasing
 
 	p.prefixParseFns = make(map[token.TokenType]prefixParseFn)
 	p.registerPrefix(token.IDENT, p.parseIdentifier)
@@ -165,7 +169,12 @@ func (p *Parser) parseReturnStatement() *ast.ReturnStatement {
 }
 
 func (p *Parser) parseExpressionStatement() *ast.ExpressionStatement {
-	defer untrace(trace("parseExpressionStatement"))
+	defer func(flag bool) {
+		if flag == true {
+			untrace(trace("parseExpressionStatement"))
+		}
+	}(isTrace)
+
 	stmt := &ast.ExpressionStatement{Token: p.curToken}
 	stmt.Expression = p.parseExpression(LOWEST)
 
@@ -177,7 +186,12 @@ func (p *Parser) parseExpressionStatement() *ast.ExpressionStatement {
 }
 
 func (p *Parser) parseExpression(precedence int) ast.Expression {
-	defer untrace(trace("parseExpression"))
+	defer func(flag bool) {
+		if flag == true {
+			untrace(trace("parseExpression"))
+		}
+	}(isTrace)
+
 	prefix := p.prefixParseFns[p.curToken.Type]
 	if prefix == nil {
 		p.noPrefixParseFnError(p.curToken.Type)
@@ -203,7 +217,12 @@ func (p *Parser) parseIdentifier() ast.Expression {
 }
 
 func (p *Parser) parseIntegerLiteral() ast.Expression {
-	defer untrace(trace("parseIntegerLiteral"))
+	defer func(flag bool) {
+		if flag == true {
+			untrace(trace("parseIntegerLiteral"))
+		}
+	}(isTrace)
+
 	lit := &ast.IntegerLiteral{Token: p.curToken}
 	value, err := strconv.ParseInt(p.curToken.Literal, 0, 64)
 	if err != nil {
@@ -217,7 +236,12 @@ func (p *Parser) parseIntegerLiteral() ast.Expression {
 }
 
 func (p *Parser) parsePrefixExpression() ast.Expression {
-	defer untrace(trace("parsePrefixExpression"))
+	defer func(flag bool) {
+		if flag == true {
+			untrace(trace("parsePrefixExpression"))
+		}
+	}(isTrace)
+
 	expression := &ast.PrefixExpression{
 		Token:    p.curToken,
 		Operator: p.curToken.Literal,
@@ -230,7 +254,12 @@ func (p *Parser) parsePrefixExpression() ast.Expression {
 }
 
 func (p *Parser) parseInfixExpression(left ast.Expression) ast.Expression {
-	defer untrace(trace("parseInfixExpression"))
+	defer func(flag bool) {
+		if flag == true {
+			untrace(trace("parseInfixExpression"))
+		}
+	}(isTrace)
+
 	expression := &ast.InfixExpression{
 		Token:    p.curToken,
 		Operator: p.curToken.Literal,
