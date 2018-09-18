@@ -9,8 +9,10 @@ import (
 	"../parser"
 )
 
+// PROMPT プロンプト
 const PROMPT = ">> "
 
+// Start REPLの起動
 func Start(in io.Reader, out io.Writer) {
 	scanner := bufio.NewScanner(in)
 
@@ -36,7 +38,8 @@ func Start(in io.Reader, out io.Writer) {
 	}
 }
 
-const MONKEY_FACE = `            __,__
+// MONKEYFACE 猿顔
+const MONKEYFACE = `            __,__
    .--.  .-"     "-.  .--.
   / .. \/  .-. .-.  \/ .. \
  | |  '|  /   Y   \  |'  | |
@@ -50,10 +53,10 @@ const MONKEY_FACE = `            __,__
 `
 
 func printParserErrors(out io.Writer, errors []string) {
-	io.WriteString(out, MONKEY_FACE)
+	io.WriteString(out, MONKEYFACE)
 	io.WriteString(out, "Woops! We ran into some monkey business here!\n")
 	io.WriteString(out, " parser errors:\n")
 	for _, msg := range errors {
-		io.WriteString(out, "\t"+msg+"\n")
+		io.WriteString(out, "\t"+msg+"\n\n")
 	}
 }
