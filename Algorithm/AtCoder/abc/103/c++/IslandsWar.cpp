@@ -19,13 +19,19 @@ int main() {
 
     sort(bridges.begin(), bridges.end());
 
-    int ans = 1;
-    int s = bridges[0].first;
+    int ans = 0;
+    int l = 0, r = 0;
+
     for (int i = 0; i < m; ++i) {
-        if (i + 1 == bridges[i].second && s >= bridges[i].first) {
+        if (bridges[i].first >= r) {
             ++ans;
-            s = bridges[i].second;
+            l = bridges[i].first;
+            r = bridges[i].second;
+            continue;
         }
+
+        l = max(l, bridges[i].first);
+        r = min(r, bridges[i].second);
     }
 
     cout << ans << endl;
