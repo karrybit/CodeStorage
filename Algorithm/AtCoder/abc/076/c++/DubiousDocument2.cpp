@@ -24,17 +24,34 @@ typedef pair<ui, ui> pui;
 typedef pair<long, long> pl;
 typedef pair<int, int> pi;
 
+string S, T;
+
+bool check(int index) {
+    for (int i = 1; i < T.size(); ++i) if (S[i + index] != T[i] && S[i + index] != '?') return false;
+    return true;
+}
+
 int main() {
-    string S, T; cin >> S >> T;
+    cin >> S >> T;
 
-    char initial = T[0];
+    int index = -1;
+    for (int i = S.size() - T.size(); i >= 0; --i) {
+        if ((S[i] == T[0] || S[i] == '?') && check(i)) {
+            index = i;
+            break;
+        }
+    }    
 
-    int q = 0;
-    int cnt = 0;
-    for (char c: S) {
-        if (c == initial)   cnt = 1;
-        else if (c == '?')  q = max(q, ++cnt);
-        else                cnt = 0;
+    if (index == -1) {
+        cout << "UNRESTORABLE" << endl;
+        return 0;
+
+    } else {
+        for (int i = 0; i < S.size(); ++i) {
+            if (index <= i && i < index + T.size()) cout << T[i - index];
+            else                                    cout << (S[i] == '?' ? 'a' : S[i]);
+        }
+        cout << endl;
     }
 
     return 0;
