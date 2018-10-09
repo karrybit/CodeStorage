@@ -5,6 +5,7 @@
 #include <queue>
 #include <utility>
 #include <climits>
+#include <bitset>
 
 using namespace std;
 
@@ -26,4 +27,10 @@ typedef pair<int, int> pi;
 
 int main() {
     return 0;
+}
+
+template <class T>
+void printv(vector<T> vc) {
+    for (auto e: vc) cout << e << " ";
+    cout << endl;
 }
