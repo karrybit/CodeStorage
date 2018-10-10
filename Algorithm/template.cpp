@@ -25,12 +25,12 @@ typedef pair<ui, ui> pui;
 typedef pair<long, long> pl;
 typedef pair<int, int> pi;
 
-int main() {
-    return 0;
-}
-
 template <class T>
 void printv(vector<T> vc) {
     for (auto e: vc) cout << e << " ";
     cout << endl;
+}
+
+int main() {
+    return 0;
 }
