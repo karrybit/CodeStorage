@@ -32,6 +32,26 @@ void printv(vector<T> vc) {
 }
 
 int main() {
+    int n, r; cin >> n >> r;
+    vi vc; vc.resize(n);
+    for (int i = 0; i < n; ++i) cin >> vc[i];
+    sort(vc.begin(), vc.end());
+
+    auto it = vc.begin();
+    int ans = 0;
+    while (it != vc.end()) {
+        int temp = *it;
+
+        while (it != vc.end() && *it <= temp + r) ++it;
+
+        temp = *(it - 1);
+        while (it != vc.end() && *it <= temp + r) ++it;
+
+        ++ans;
+    }
+
+    cout << ans << endl;
+
     return 0;
 }
 
