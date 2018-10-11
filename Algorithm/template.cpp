@@ -7,6 +7,8 @@
 #include <climits>
 #include <bitset>
 
+#define P 1000000007
+
 using namespace std;
 
 typedef unsigned long long ull;
