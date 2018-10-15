@@ -6,12 +6,14 @@
 #include <utility>
 #include <climits>
 #include <bitset>
+#include <cmath>
 
 #define P 1000000007
 
 using namespace std;
 
 typedef unsigned long long ull;
+typedef unsigned long ul;
 typedef long long ll;
 typedef unsigned int ui;
 
