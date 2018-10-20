@@ -8,7 +8,7 @@
 #include <bitset>
 #include <cmath>
 
-#define P 1000000007
+#define BP 1000000007
 
 using namespace std;
 
@@ -22,6 +22,8 @@ typedef vector<ll> vll;
 typedef vector<ui> vui;
 typedef vector<long> vl;
 typedef vector<int> vi;
+typedef vector<vl> vvl;
+typedef vector<vi> vvi;
 
 typedef pair<ull, ull> pull;
 typedef pair<ll, ll> pll;
@@ -33,6 +35,14 @@ template <class T>
 void printv(vector<T> vc) {
     for (auto e: vc) cout << e << " ";
     cout << endl;
+}
+
+template <class T>
+void printvv(vector<T> vvc) { 
+    for (auto vc: vvc) {
+        for (auto e: vc) cout << e << " ";
+        cout << endl;
+    }
 }
 
 int main() {
