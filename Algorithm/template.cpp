@@ -34,6 +34,9 @@ typedef pair<int, int> pi;
 typedef vector<pair<long, long> > vpl;
 typedef vector<pair<int, int> > vpi;
 
+typedef queue<long> ql;
+typedef queue<int> qi;
+
 template <class T>
 void printv(vector<T> vc) {
     for (auto e: vc) cout << e << " ";
