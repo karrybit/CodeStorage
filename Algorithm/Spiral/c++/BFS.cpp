@@ -104,7 +104,5 @@ int main() {
 
     bfs();
 
-    // 出力
-
     return 0;
 }
