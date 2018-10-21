@@ -31,6 +31,9 @@ typedef pair<ui, ui> pui;
 typedef pair<long, long> pl;
 typedef pair<int, int> pi;
 
+typedef vector<pair<long, long> > vpl;
+typedef vector<pair<int, int> > vpi;
+
 template <class T>
 void printv(vector<T> vc) {
     for (auto e: vc) cout << e << " ";
@@ -43,6 +46,11 @@ void printvv(vector<T> vvc) {
         for (auto e: vc) cout << e << " ";
         cout << endl;
     }
+}
+
+template <class T>
+void printvp(vector<pair<T, T> > vp) {
+    for (auto pT: vp) cout << pT.first << " " << pT.second << endl;
 }
 
 int main() {
