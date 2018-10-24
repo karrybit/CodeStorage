@@ -73,16 +73,17 @@ int prim() {
         color[i] = WHITE;
     }
 
-    // スタート地点なので0で初期化
+    // スタート地点なので0
     minCosts[0] = 0;
 
     int parent, minv;
     while (true) {
-        parent = -1, minv = INT_MAX;
+        parent = -1;
+        minv = INT_MAX;
 
         // こっちは親の話
         for (int i = 0; i < n; ++i) {
-            if (minv > minCosts[i] && color[i] != BLACK) {
+            if (color[i] != BLACK && minCosts[i] < minv) {
                 // 辺の存在が確約されている頂点に関して
                 // 最小コストの頂点をparentとして探索を行うための準備
                 parent = i;
@@ -109,6 +110,7 @@ int prim() {
 
     int sum = 0;
     for (int i = 0; i < n; ++i) {
+        // -1はスタート位置
         if (parents[i] != -1) sum += table[i][parents[i]];
     }
 
