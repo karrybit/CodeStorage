@@ -64,34 +64,43 @@ int n;
 #define BLACK 2
 
 int prim() {
-    int u, minv;
-    vi d(n), p(n), color(n);
+    vi minCosts(n), parents(n), color(n);
 
+    // 初期化
     for (int i = 0; i < n; ++i) {
-        d[i] = INT_MAX;
-        p[i] = INT_MAX;
+        minCosts[i] = INT_MAX;
+        parents[i] = -1;
         color[i] = WHITE;
     }
 
-    d[0] = 0;
+    // スタート地点なので0で初期化
+    minCosts[0] = 0;
 
+    int parent, minv;
     while (true) {
-        minv = INT_MAX;
-        u = -1;
+        parent = -1, minv = INT_MAX;
+
+        // こっちは親の話
         for (int i = 0; i < n; ++i) {
-            if (minv > d[i] && color[i] != BLACK) {
-                u = i;
-                minv = d[i];
+            if (minv > minCosts[i] && color[i] != BLACK) {
+                // 辺の存在が確約されている頂点に関して
+                // 最小コストの頂点をparentとして探索を行うための準備
+                parent = i;
+                minv = minCosts[i];
             }
         }
 
-        if (u == -1) break;
-        color[u] = BLACK;
+        if (parent == -1) break;
+        color[parent] = BLACK;
+
         for (int v = 0; v < n; ++v) {
-            if (color[v] != BLACK && table[u][v] != INT_MAX) {
-                if (d[v] > table[u][v]) {
-                    d[v] = table[u][v];
-                    p[v] = u;
+            // 頂点vについて
+            if (color[v] != BLACK && table[parent][v] != INT_MAX) {
+                // 未通過 && 辺が存在し
+                if (minCosts[v] > table[parent][v]) {
+                    // その辺の重みが保持している辺の現状最小の重みよりも小さい場合
+                    minCosts[v] = table[parent][v];
+                    parents[v] = parent;
                     color[v] = GRAY;
                 }
             }
@@ -100,7 +109,7 @@ int prim() {
 
     int sum = 0;
     for (int i = 0; i < n; ++i) {
-        if (p[i] != -1) sum += table[i][p[i]];
+        if (parents[i] != -1) sum += table[i][parents[i]];
     }
 
     return sum;
