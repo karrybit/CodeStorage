@@ -59,13 +59,76 @@ void printvp(vector<pair<T, T> > vp) {
 vvi table;
 int n;
 
+#define WHITE 0
+#define GRAY 1
+#define BLACK 2
+
+int prim() {
+    vi minCosts(n), parents(n), color(n);
+
+    // 初期化
+    for (int i = 0; i < n; ++i) {
+        minCosts[i] = INT_MAX;
+        parents[i] = -1;
+        color[i] = WHITE;
+    }
+
+    // スタート地点なので0
+    minCosts[0] = 0;
+
+    int parent, minv;
+    while (true) {
+        parent = -1;
+        minv = INT_MAX;
+
+        // こっちは親の話
+        for (int i = 0; i < n; ++i) {
+            if (color[i] != BLACK && minCosts[i] < minv) {
+                // 辺の存在が確約されている頂点に関して
+                // 最小コストの頂点をparentとして探索を行うための準備
+                parent = i;
+                minv = minCosts[i];
+            }
+        }
+
+        if (parent == -1) break;
+        color[parent] = BLACK;
+
+        for (int v = 0; v < n; ++v) {
+            // 頂点vについて
+            if (color[v] != BLACK && table[parent][v] != INT_MAX) {
+                // 未通過 && 辺が存在し
+                if (minCosts[v] > table[parent][v]) {
+                    // その辺の重みが保持している辺の現状最小の重みよりも小さい場合
+                    minCosts[v] = table[parent][v];
+                    parents[v] = parent;
+                    color[v] = GRAY;
+                }
+            }
+        }
+    }
+
+    int sum = 0;
+    for (int i = 0; i < n; ++i) {
+        // -1はスタート位置
+        if (parents[i] != -1) sum += table[i][parents[i]];
+    }
+
+    return sum;
+}
+
 int main() {
     cin >> n;
     table.resize(n);
     for (int i = 0; i < n; ++i) {
-        int cost; cin >> cost;
-        cost = cost < 0 ? INT_MAX : cost;
-        table[i].push_back(cost);
+        for (int j = 0; j < n; ++j) {
+            int cost; cin >> cost;
+            cost = cost < 0 ? INT_MAX : cost;
+            table[i].push_back(cost);
+        }
     }
+
+    cout << prim() << endl;
+
     return 0;
 }
