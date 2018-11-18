@@ -12,29 +12,21 @@
 
 using namespace std;
 
-typedef unsigned long long ull;
-typedef unsigned long ul;
 typedef long long ll;
-typedef unsigned int ui;
 
-typedef vector<ull> vull;
 typedef vector<ll> vll;
-typedef vector<ui> vui;
-typedef vector<long> vl;
+typedef vector<ll> vl;
 typedef vector<int> vi;
 typedef vector<vl> vvl;
 typedef vector<vi> vvi;
 
-typedef pair<ull, ull> pull;
 typedef pair<ll, ll> pll;
-typedef pair<ui, ui> pui;
-typedef pair<long, long> pl;
 typedef pair<int, int> pi;
 
-typedef vector<pair<long, long> > vpl;
-typedef vector<pair<int, int> > vpi;
+typedef vector<pll> vpl;
+typedef vector<pi> vpi;
 
-typedef queue<long> ql;
+typedef queue<ll> ql;
 typedef queue<int> qi;
 
 template <class T>
