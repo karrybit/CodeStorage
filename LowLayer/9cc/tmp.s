@@ -1,5 +1,5 @@
 .intel_syntax noprefix
-.global main
-main:
-	mov rax, 123
+.global _main
+_main:
+	mov rax, 42
 	ret
