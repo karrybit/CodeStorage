@@ -1,7 +1,7 @@
-9cc: 9cc.c
+9cc.o: 9cc.c
+	clang 9cc.c -o 9cc.o
 
 test: 9cc.o
-	clang 9cc.c -o 9cc.o
 	./test.sh
 
 clean:
