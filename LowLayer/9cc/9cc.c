@@ -5,15 +5,15 @@
 
 // トークンの型を表す値
 enum {
-  TK_NUM = 256,  // 整数トークン
-  TK_EOF,        // 入力の終わりを表すトークン
+  TK_NUM = 256, // 整数トークン
+  TK_EOF,       // 入力の終わりを表すトークン
 };
 
 // トークンの型
 typedef struct {
-  int ty;       // トークンの型
-  int val;      // tyがTK_NUMの場合、その数値
-  char *input;  // トークン文字列（エラーメッセージ用）
+  int ty;      // トークンの型
+  int val;     // tyがTK_NUMの場合、その数値
+  char *input; // トークン文字列（エラーメッセージ用）
 } Token;
 
 // トークナイズした結果のトークン列はこの配列に保存する
@@ -75,7 +75,8 @@ int main(int argc, char **argv) {
 
   // 式の最初は数でなければならないので、それをチェックして
   // 最初のmov命令を出力
-  if (tokens[0].ty != TK_NUM) error(0);
+  if (tokens[0].ty != TK_NUM)
+    error(0);
   printf("  mov rax, %d\n", tokens[0].val);
 
   // `+ <数>`あるいは`- <数>`というトークンの並びを消費しつつ
@@ -84,7 +85,8 @@ int main(int argc, char **argv) {
   while (tokens[i].ty != TK_EOF) {
     if (tokens[i].ty == '+') {
       i++;
-      if (tokens[i].ty != TK_NUM) error(i);
+      if (tokens[i].ty != TK_NUM)
+        error(i);
       printf("  add rax, %d\n", tokens[i].val);
       i++;
       continue;
@@ -92,7 +94,8 @@ int main(int argc, char **argv) {
 
     if (tokens[i].ty == '-') {
       i++;
-      if (tokens[i].ty != TK_NUM) error(i);
+      if (tokens[i].ty != TK_NUM)
+        error(i);
       printf("  sub rax, %d\n", tokens[i].val);
       i++;
       continue;
