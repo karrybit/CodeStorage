@@ -35,28 +35,104 @@ void tokenize(char *p) {
       i++;
       p++;
       continue;
+      if (isdigit(*p)) {
+        tokens[i].ty = TK_NUM;
+        tokens[i].input = p;
+        tokens[i].val = strtol(p, &p, 10);
+        i++;
+        continue;
+      }
+
+      fprintf(stderr, "トークナイズできません： %s\n", p);
+      exit(1);
     }
 
-    if (isdigit(*p)) {
-      tokens[i].ty = TK_NUM;
-      tokens[i].input = p;
-      tokens[i].val = strtol(p, &p, 10);
-      i++;
-      continue;
-    }
-
-    fprintf(stderr, "トークナイズできません： %s\n", p);
-    exit(1);
+    tokens[i].ty = TK_EOF;
+    tokens[i].input = p;
   }
-
-  tokens[i].ty = TK_EOF;
-  tokens[i].input = p;
 }
 
 // エラーを報告するための関数
 void error(int i) {
   fprintf(stderr, "予期せぬトークンです： %s\n", tokens[i].input);
   exit(1);
+}
+
+enum {
+  ND_NUM = 256, // 整数のノードの型
+};
+
+typedef struct Node {
+  int ty;           // 演算子かND_NUM
+  struct Node *lhs; // 左辺
+  struct Node *rhs; // 右辺
+  int val;          // tyがND_NUMの場合のみ使う
+} Node;
+
+int pos;
+
+Node *term();
+Node *mul();
+Node *expr();
+
+Node *new_node(int op, Node *lhs, Node *rhs) {
+  Node *node = malloc(sizeof(Node));
+  node->ty = op;
+  node->lhs = lhs;
+  node->rhs = rhs;
+  return node;
+}
+
+Node *new_node_num(int val) {
+  Node *node = malloc(sizeof(Node));
+  node->ty = ND_NUM;
+  node->val = val;
+  return node;
+}
+
+Node *term() {
+  if (tokens[pos].ty == TK_NUM)
+    return new_node_num(tokens[pos++].val);
+  if (tokens[pos].ty == '(') {
+    pos++;
+    Node *node = expr();
+    if (tokens[pos].ty != ')') {
+      fprintf(stderr, "開きカッコに対応する閉じカッコがありません：%s",
+              tokens[pos].input);
+      exit(1);
+    }
+    pos++;
+    return node;
+  }
+  fprintf(stderr, "数値でも開きカッコでもないトークンです：%s",
+          tokens[pos].input);
+  exit(1);
+}
+
+Node *mul() {
+  Node *lhs = term();
+  if (tokens[pos].ty == '*') {
+    pos++;
+    return new_node('*', lhs, mul());
+  }
+  if (tokens[pos].ty == '/') {
+    pos++;
+    return new_node('/', lhs, mul());
+  }
+  return lhs;
+}
+
+Node *expr() {
+  Node *lhs = mul();
+  if (tokens[pos].ty == '+') {
+    pos++;
+    return new_node('+', lhs, expr());
+  }
+  if (tokens[pos].ty == '-') {
+    pos++;
+    return new_node('-', lhs, expr());
+  }
+  return lhs;
 }
 
 int main(int argc, char **argv) {
