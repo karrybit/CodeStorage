@@ -35,21 +35,22 @@ void tokenize(char *p) {
       i++;
       p++;
       continue;
-      if (isdigit(*p)) {
-        tokens[i].ty = TK_NUM;
-        tokens[i].input = p;
-        tokens[i].val = strtol(p, &p, 10);
-        i++;
-        continue;
-      }
-
-      fprintf(stderr, "トークナイズできません： %s\n", p);
-      exit(1);
     }
 
-    tokens[i].ty = TK_EOF;
-    tokens[i].input = p;
+    if (isdigit(*p)) {
+      tokens[i].ty = TK_NUM;
+      tokens[i].input = p;
+      tokens[i].val = strtol(p, &p, 10);
+      i++;
+      continue;
+    }
+
+    fprintf(stderr, "トークナイズできません： %s\n", p);
+    exit(1);
   }
+
+  tokens[i].ty = TK_EOF;
+  tokens[i].input = p;
 }
 
 // エラーを報告するための関数
@@ -69,7 +70,7 @@ typedef struct Node {
   int val;          // tyがND_NUMの場合のみ使う
 } Node;
 
-int pos;
+int pos = 0;
 
 Node *term();
 Node *mul();
@@ -143,6 +144,7 @@ int main(int argc, char **argv) {
 
   // トークナイズする
   tokenize(argv[1]);
+  Node *node = expr();
 
   // アセンブリの前半部分を出力
   printf(".intel_syntax noprefix\n");
