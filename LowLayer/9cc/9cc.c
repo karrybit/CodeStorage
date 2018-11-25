@@ -164,16 +164,26 @@ Node *assign() {
   Node *lhs = expr();
   if (tokens[pos].ty == '=') {
     pos++;
-    new_node('=', lhs, assign());
+    return new_node('=', lhs, assign());
   }
-  return new_node(';', lhs, NULL);
+
+  if (tokens[pos].ty == ';') {
+    pos++;
+    return new_node(';', lhs, NULL);
+  }
+
+  fprintf(stderr, "終端文字がありません。");
+  exit(1);
 }
 
 void program() {
   int i = 0;
   while (tokens[pos].ty != TK_EOF) {
     code[i++] = assign();
+    printf("; add Node\n");
   }
+  code[i] = NULL;
+  printf("; call back program\n");
 }
 
 void gen_lval(Node *node) {
@@ -188,6 +198,9 @@ void gen_lval(Node *node) {
 }
 
 void gen(Node *node) {
+  if (node == NULL)
+    return;
+
   if (node->ty == ND_NUM) {
     printf("  push %d\n", node->val);
     return;
@@ -263,7 +276,7 @@ int main(int argc, char **argv) {
   printf("  sub rsp, 208\n");
 
   // 先頭の式から順にコード生成
-  for (int i = 0; code[i]; i++) {
+  for (int i = 0; code[i] != NULL; i++) {
     gen(code[i]);
 
     // 式の評価結果としてスタックに一つの値が残っている
