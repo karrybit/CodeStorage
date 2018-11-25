@@ -6,6 +6,7 @@
 // トークンの型を表す値
 enum {
   TK_NUM = 256, // 整数トークン
+  TK_IDENT,     // 識別子
   TK_EOF,       // 入力の終わりを表すトークン
 };
 
@@ -26,6 +27,14 @@ void tokenize(char *p) {
   while (*p) {
     if (isspace(*p)) {
       ++p;
+      continue;
+    }
+
+    if ('a' <= *p && *p <= 'z') {
+      tokens[i].ty = TK_IDENT;
+      tokens[i].input = p;
+      i++;
+      p++;
       continue;
     }
 
