@@ -22,3 +22,53 @@ static void factor();               /* 式の因子のコンパイル */
 static void condition();            /* 条件式のコンパイル */
 static int isStBeginKey(Token t);   /* トークンtは文の先頭のキーか？ */
 
+int compile() {
+    int i;
+    printf("start compilation\n");
+    initSource();               /* getSourceの初期設定 */
+    token = nextToken();        /* 最初のトークン */
+    blockBegin(FIRSTADDR);      /* これ以後の宣言は新しいブロックのもの */
+
+    block(0);                   /* 0はダミー（主ブロックの関数名はない） */
+    finalSource();
+
+    i = errorN();               /* エラーメッセージの個数 */
+
+    if (i != 0)
+        printf("%d error\n", i);
+
+    /* listCode();  */          /* 目的コードのリスト（必要なら） */
+    return i < MINERROR;        /* エラーメッセージの個数が少ないかどうかの判定 */
+}
+
+void block(int pIndex) {        /* pIndexはこのブロックの関数名のインデックス */
+    int backP;
+    backP = genCodeV(jmp, 0);   /* 内部関数を飛び越す命令、後でバックパッチ */
+
+    while (1) {                 /* 宣言部のコンパイルを繰り返す */
+        switch (token.kind) {
+        case Const:             /* 定数宣言部のコンパイル */
+            token = nextToken();
+            constDecl();
+            continue;
+        case Var:               /* 変数宣言部のコンパイル */
+            token = nextToken();
+            varDecl();
+            continue;
+        case Func:              /* 関数宣言部のコンパイル */
+            token = nextToken();
+            funcDecl;
+            continue;
+        default:                /* それ以外なら宣言部は終わり */
+            break;
+        }
+        break;
+    }
+
+    backPatch(backP);               /* 内部関数を飛び越す命令にパッチ */
+    changeV(pIndex, nextCode());    /* この関数の開始番地を修正 */
+    genCodeV(ict, frameL());        /* このブロックの実行時の必要記憶域をとる命令 */
+    statement();                    /* このブロックの主文 */
+    genCodeR();                     /* リターン命令 */
+    blockEnd();                     /* ブロックが終わったことをtableに連絡 */
+}
