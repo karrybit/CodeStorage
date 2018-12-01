@@ -199,3 +199,85 @@ void error(char *m) {
         exit(1);
     }
 }
+
+// エラーの個数のカウント、多すぎたら終わり
+void errorNoCheck() {
+    if (errorNo++ > MAXERROR) {
+        fprintf(fptex, "too many errors\n\\end{document}\n");
+        printf("abort compilation\n");
+        exit (1);
+    }
+}
+
+// 型エラーを.texファイルに出力
+void errorType(char *m) {
+    printSpaces();
+    fprintf(fptex, "\\(\\stackrel{\\mbox{\\scriptsize %s}}{\\mbox{", m);
+    printcToken();
+    fprintf(fptex, "}}\\)");
+    errorNoCheck();
+}
+
+// keyString(k)を.texファイルに挿入
+void errorInsert(KeyId k) {
+    if (k < end_of_KeyWd) {
+        // 予約語
+        fprintf(fptex, "\\ \\insert{{\\bf %s}}", KeyWdT[k].word);
+    } else {
+        // 演算子か区切り記号
+        fprintf(fptex, "\\ \\insert{$%s$}", KeyWdT[k].word);
+    }
+    errorNoCheck();
+}
+
+// 名前がないとのメッセージを.texファイルに挿入
+void errorMissingId() {
+    fprintf(fptex, "\\insert{Id}");
+    errorNoCheck();
+}
+
+// 演算子がないとのメッセージを.texファイルに挿入
+void errorMissingOp() {
+    fprintf(fptex, "\\insert{$\\otimes$}");
+    errorNoCheck();
+}
+
+// 今読んだトークンを読み捨てる
+void errorDelete() {
+    int i = (int)cToken.kind;
+    printSpaces();
+    printed = 1;
+    if (i < end_of_KeyWd) {
+        // 予約語
+        fprintf(fptex, "\\delete{{\\bf %s}}", KeyWdT[i].word);
+    } else if (i < end_of_KeySym) {
+        // 演算子か区切り記号
+        fprintf(fptex, "\\delete{$%s$}", KeyWdT[i].word);
+    } else if (i == (int)Id) {
+        fprintf(fptex, "\\delete{%s}", cToken.u.id);
+    } else if (i == (int)Num) {
+        fprintf(fptex, "\\delete{%d}", cToken.u.value);
+    }
+}
+
+// エラーメッセージを.texファイルに出力
+void errorMessage(char *m) {
+    fprintf(fptex, "$^{%s}$", m);
+    errorNoCheck();
+}
+
+// エラーメッセージを出力し、コンパイルを終了
+void errorF(char *m) {
+    errorMessage(m);
+    fprintf(fptex, "fatal errors\n\\end{document}\n");
+    if (errorNo) {
+        printf("total %d errors\n", errorNo);
+    }
+    printf("abort compilation\n");
+    exit (1);
+}
+
+// エラーの個数を返す
+int errorN() {
+    return errorNo();
+}
