@@ -434,3 +434,37 @@ void factor() {
         return;
     }
 }
+
+// 条件式のコンパイル
+void condition() {
+    KeyId k;
+
+    if (token.kind == Odd) {
+        token = nextToken();
+        expression();
+        genCodeO(odd);
+
+    } else {
+        expression();
+        k = token.kind;
+        switch (k) {
+        case Equal: case Lss: case Gtr:
+        case NotEq: case LssEq: case GtrEq:
+            break;
+        default:
+            errorType("rel-op");
+            break;
+        }
+
+        token = nextToken();
+        expression();
+        switch (k) {
+            case Equal:     genCodeO(eq);   break;
+            case Lss:       genCodeO(ls);   break;
+            case Gtr:       genCodeO(gr);   break;
+            case NotEq:     genCodeO(neq);  break;
+            case LssEq:     genCodeO(lseq); break;
+            case GtrEq:     genCodeO(greq); break;
+        }
+    }
+}
