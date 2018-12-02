@@ -281,3 +281,155 @@ void errorF(char *m) {
 int errorN() {
     return errorNo();
 }
+
+// 次の1文字を返す関数
+char nextChar() {
+    char ch;
+    if (lineIndex == -1) {
+        if (fgets(line, MAXLINE, fpi) != NULL) {
+            // 通常のエラーメッセージの出力の場合（参考まで）
+            /* puts(line); */
+            lineIndex = 0;
+        } else {
+            // end of file ならコンパイル終了
+            errorF("end of file\n");
+        }
+    }
+
+    if ((ch = line[lineIndex++]) == '\n') {
+        // chに次の1文字
+        // それが改行文字なら次の行の入力準備
+        lineIndex = -1;
+        // 文字としては改行文字を返す
+        return '\n';
+    }
+
+    return ch;
+}
+
+// 次のトークンを読んで返す関数
+Token nextToken() {
+    int i = 0;
+    int num;
+    KeyId cc;
+    Token temp;
+    char ident[MAXNAME];
+    // 前のトークンを印字
+    printcToken();
+    spaces = 0;
+    CR = 0;
+
+    while (true) {
+        if (ch == ' ') {
+            spaces++;
+        } else if (ch == '\t') {
+            // 行の先頭のタブ以外は不正確
+            spaces += TAB;
+        } else if (ch == '\n') {
+            spaces = 0;
+            CR++;
+        } else {
+            break;
+        }
+        ch = nextChar();
+    }
+
+    switch (cc = charClassT[ch]) {
+    // identifier
+    case letter:
+        do {
+            if (i < MAXNAME) {
+                ident[i] = ch;
+            }
+
+            i++;
+            ch = nextChar();
+        } while (charClassT[ch] == letter ||
+                 charClassT[ch] == digit);
+
+        if (i >= MAXNAME) {
+            errorMessage("too long");
+            i = MAXNAME - 1;
+        }
+
+        ident[i] = '\0';
+        for (i = 0; i < end_of_KeyWd; i++) {
+            if (strcmp(ident, KeyWdT[i].word) == 0) {
+                // 予約語の場合
+                temp.kind = keyWdT[i].keyId;
+                cToken = temp;
+                printed = 0;
+                return temp;
+            }
+        }
+
+        // ユーザーの宣言した名前の場合
+        temp.kind = Id;
+        strcpy(temp.u.id, ident);
+        break;
+
+    // number
+    case digit:
+        num = 0;
+        do {
+            num = 10 * num + (ch - '0');
+            i++;
+            ch = nextChar();
+        } while (charClassT[ch] == digit);
+
+        if (i > MAXNUM) {
+            errorMessage("too large");
+        }
+
+        temp.kind = Num;
+        temp.u.value = num;
+        break;
+
+    case colon:
+        if ((ch = nexChar()) == '=') {
+            ch = nextChar();
+            // ":="
+            temp.kind = Assign;
+            break;
+        } else {
+            temp.kind = nul;
+            break;
+        }
+
+    case Lss:
+        if ((ch = nextChar()) == '=') {
+            ch = nextChar();
+            // "<="
+            temp.kind = LssEq;
+            break;
+        } else if (ch == '>') {
+            ch = nextChar();
+            // "<>"
+            temp.kind = NotEq;
+            break;
+        } else {
+            temp.kind = Lss;
+            break;
+        }
+
+    case Gtr:
+        if ((ch = nextChar()) == '=') {
+            ch = nextChar();
+            // ">="
+            temp.kind = GtrEq;
+            break;
+        } else {
+            temp.kind = Gtr;
+            break;
+        }
+
+    default:
+        temp.kind = cc;
+        ch = nextChar();
+        break;
+    }
+
+    cToken = temp;
+    printed = 0;
+    return temp;
+}
