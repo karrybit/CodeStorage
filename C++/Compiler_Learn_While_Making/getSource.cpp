@@ -1,5 +1,6 @@
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <cstdlib>
+#include <string>
 #include "getSource.h"
 
 // 1行の最大文字数
@@ -134,7 +135,7 @@ static void initCharClassT() {
     charClassT[','] = Comma;
     charClassT['.'] = Period;
     charClassT[';'] = Semicolon;
-    charClassT[':'] = Colon;
+    charClassT[':'] = colon;
 }
 
 // ソースファイルのopen
@@ -279,7 +280,7 @@ void errorF(char *m) {
 
 // エラーの個数を返す
 int errorN() {
-    return errorNo();
+    return errorNo;
 }
 
 // 次の1文字を返す関数
@@ -356,7 +357,7 @@ Token nextToken() {
         for (i = 0; i < end_of_KeyWd; i++) {
             if (strcmp(ident, KeyWdT[i].word) == 0) {
                 // 予約語の場合
-                temp.kind = keyWdT[i].keyId;
+                temp.kind = KeyWdT[i].keyId;
                 cToken = temp;
                 printed = false;
                 return temp;
@@ -386,7 +387,7 @@ Token nextToken() {
         break;
 
     case colon:
-        if ((ch = nexChar()) == '=') {
+        if ((ch = nextChar()) == '=') {
             ch = nextChar();
             // ":="
             temp.kind = Assign;

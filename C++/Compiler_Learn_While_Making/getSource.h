@@ -25,7 +25,7 @@ typedef enum keys {
     Equal, Lss, Gtr,
     NotEq, LssEq, GtrEq,
     Comma, Period, Semicolon,
-    Asssign,
+    Assign,
     end_of_KeySym,
     // 演算子と区切り記号の名前ここまで
 

@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <cstdio>
 #include "getSource.h"
 
 int main() {
@@ -7,7 +7,7 @@ int main() {
     scanf("%s", fileName);
 
     if (!openSource(fileName))
-        return;
+        return 1;
 
     if (compile())
         execute();
