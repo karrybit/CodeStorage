@@ -32,7 +32,7 @@ static int spaces;
 // その前のCRの個数
 static int CR;
 // トークンは印字済みか
-static int printed;
+static bool printed;
 
 // 出力したエラーの数
 static int errorNo = 0;
@@ -162,7 +162,7 @@ void closeSource() {
 void initSource() {
     lineIndex = -1;
     ch = '\n';
-    printed = 1;
+    printed = true;
     initCharClassT();
 
     // LaTeXコマンド
@@ -246,7 +246,7 @@ void errorMissingOp() {
 void errorDelete() {
     int i = (int)cToken.kind;
     printSpaces();
-    printed = 1;
+    printed = true;
     if (i < end_of_KeyWd) {
         // 予約語
         fprintf(fptex, "\\delete{{\\bf %s}}", KeyWdT[i].word);
@@ -358,7 +358,7 @@ Token nextToken() {
                 // 予約語の場合
                 temp.kind = keyWdT[i].keyId;
                 cToken = temp;
-                printed = 0;
+                printed = false;
                 return temp;
             }
         }
@@ -430,6 +430,86 @@ Token nextToken() {
     }
 
     cToken = temp;
-    printed = 0;
+    printed = false;
     return temp;
+}
+
+// t.kind == k のチェック
+// t.kind == k なら、次のトークンを読んで返す
+// t.kind != k なら、エラーメッセージを出し、
+// tとkが共に記号、または予約語なら、tを捨て、次のトークンを読んで返す（tをkで置き換えたことになる）
+// それ以外の場合、kを挿入したことにして、tを返す
+Token checkGet(Token t, KeyId k) {
+    if (t.kind == k) {
+        return nextToken();
+    }
+
+    if ((isKeyWd(k) && isKeyWd(t.kind)) ||
+        (isKeySym(k) && isKeySym(t.kind))) {
+        errorDelete();
+        errorInsert(k);
+        return nextToken();
+    }
+    errorInsert(k);
+    return t;
+}
+
+// 空白や改行の印字
+static void printSpaces() {
+
+    while (CR-- > 0) {
+        fprintf(fptex, "\\ \\par\n");
+    }
+
+    while (spaces-- > 0) {
+        fprintf(fptex, "\\ ");
+    }
+
+    CR = 0;
+    spaces = 0;
+}
+
+// 現在のトークンの印字
+void printcToken() {
+    int i = (int)cToken.kind;
+    if (printed) {
+        printed = false;
+        return;
+    }
+
+    printed = true;
+    // トークンの前の空白や改行印字
+    printSpaces();
+
+    if (i < end_of_KeyWd) {
+        // 予約語
+        fprintf(fptex, "{\\bf %s}", KeyWdT[i].word);
+        fprintf(fptex, "{\\bf %s}", KeyWdT[i].word);
+    } else if (i < end_of_KeySym) {
+        // 演算子か区切り記号
+        fprintf(fptex, "$%s$", KeyWdT[i].word);
+    } else if (i == (int)Id) {
+        switch (idKind) {
+        case varId:
+            fprintf(fptex, "%s", cToken.u.id);
+            return;
+        case parId:
+            fprintf(fptex, "{\\sl %s}", cToken.u.id);
+            return;
+        case funcId:
+            fprintf(fptex, "{\\it %s}", cToken.u.id);
+            return;
+        case constId:
+            fprintf(fptex, "{\\sf %s}", cToken.u.id);
+            return;
+        }
+    } else if (i == (int)Num) {
+        // Num
+        fprintf(fptex, "%d", cToken.u.value);
+    }
+}
+
+// 現トークン（Id）の種類をセット
+void setIdKind(KindT k) {
+    idKind = k;
 }
