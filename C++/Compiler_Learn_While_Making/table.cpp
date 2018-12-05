@@ -2,6 +2,7 @@
 #define TBL
 #include "table.h"
 #endif
+#include <string>
 #include "getSource.h"
 
 // 名前表の最大長さ
@@ -32,7 +33,7 @@ typedef struct tableE {
 } TableE;
 
 // 名前表
-static TableE nameTable[MAXTABLE]
+static TableE nameTable[MAXTABLE];
 // 名前表のインデックス
 static int tIndex = 0;
 // 現在のブロックレベル

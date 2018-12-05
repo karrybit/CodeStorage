@@ -58,7 +58,7 @@ void block(int pIndex) {            // pIndexはこのブロックの関数名�
             continue;
         case Func:                  // 関数宣言部のコンパイル
             token = nextToken();
-            funcDecl;
+            funcDecl();
             continue;
         default:                    // それ以外なら宣言部は終わり
             break;
@@ -267,7 +267,7 @@ void statement() {
             token = checkGet(token, Do);    // "do"のはず
             backP = genCodeV(jpc, 0);   // 条件式が偽のとき飛び出すjpc命令
             statement();            // 文のコンパイル
-            getCodeV(jmp, backP2);  // while文の先頭へのジャンプ命令
+            genCodeV(jmp, backP2);  // while文の先頭へのジャンプ命令
             backPatch(backP);       // 偽のとき飛び出すjpc命令へのバックパッチ
             return;
 
@@ -360,7 +360,7 @@ void term() {
 // 式の因子のコンパイル
 void factor() {
     int tIndex, i;
-    KeyId k;
+    KindT k;
     if (token.kind == Id) {
         tIndex = searchT(token.u.id, varId);
         setIdKind(k = kindT(tIndex));       // 印字のための情報のセット
@@ -374,7 +374,7 @@ void factor() {
 
         // 定数名
         case constId:
-            getCodeV(lit, val(tIndex));
+            genCodeV(lit, val(tIndex));
             token = nextToken();
             break;
 
@@ -416,7 +416,7 @@ void factor() {
         }
     } else if (token.kind == Num) {
         // 定数
-        genCodeV(lit, tokne.u.value);
+        genCodeV(lit, token.u.value);
         token = nextToken();
     } else if (token.kind == Lparen) {
         // 「(」「因子」「)」

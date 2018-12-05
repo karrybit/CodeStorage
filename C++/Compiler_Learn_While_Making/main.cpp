@@ -1,5 +1,7 @@
 #include <cstdio>
+#include "compile.cpp"
 #include "getSource.h"
+#include "codegen.h"
 
 int main() {
     char fileName[30];
