@@ -8,13 +8,12 @@
 #include <bitset>
 #include <cmath>
 
-#define BP 1000000007
+#define MOD 1000000007
 
 using namespace std;
 
 typedef long long ll;
 
-typedef vector<ll> vll;
 typedef vector<ll> vl;
 typedef vector<int> vi;
 typedef vector<vl> vvl;
