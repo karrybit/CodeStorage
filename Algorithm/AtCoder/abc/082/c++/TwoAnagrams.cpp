@@ -1,32 +1,57 @@
 #include <iostream>
-#include <string>
 #include <vector>
+#include <set>
+#include <string>
 #include <algorithm>
+#include <queue>
+#include <utility>
+#include <climits>
+#include <bitset>
+#include <cmath>
+
+#define MOD 1000000007
 
 using namespace std;
 
+typedef long long ll;
+
+typedef vector<ll> vl;
+typedef vector<int> vi;
+typedef vector<vl> vvl;
+typedef vector<vi> vvi;
+
+typedef pair<ll, ll> pll;
+typedef pair<int, int> pi;
+
+typedef vector<pll> vpl;
+typedef vector<pi> vpi;
+
+typedef queue<ll> ql;
+typedef queue<int> qi;
+
+template <class T>
+void printv(vector<T> vc) {
+    for (auto e: vc) cout << e << " ";
+    cout << endl;
+}
+
+template <class T>
+void printvv(vector<T> vvc) { 
+    for (auto vc: vvc) {
+        for (auto e: vc) cout << e << " ";
+        cout << endl;
+    }
+}
+
+template <class T>
+void printvp(vector<pair<T, T> > vp) {
+    for (auto pT: vp) cout << pT.first << " " << pT.second << endl;
+}
+
 int main() {
-    string S;   cin >> S;
-    string T;   cin >> T;
-
-    vector<char> sv;
-    vector<char> tv;
-
-    for (auto c: S) sv.push_back(c);
-    for (auto c: T) tv.push_back(c);
-    
-    sort(sv.begin(), sv.end());
-    sort(tv.begin(), tv.end(), greater<char>());
-
-    string _S = "";
-    string _T = "";
-
-    for (auto c: sv) _S += c;
-    for (auto c: tv) _T += c;
-
-    if (_S < _T)    cout << "Yes" << endl;
-    else            cout << "No" << endl;
-
-
+    string s, t; cin >> s >> t;
+    sort(s.begin(), s.end());
+    sort(t.begin(), t.end(), greater<char>());
+    cout << (s < t ? "Yes" : "No") << endl;
     return 0;
 }
