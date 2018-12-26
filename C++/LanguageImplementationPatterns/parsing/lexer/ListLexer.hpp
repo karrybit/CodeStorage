@@ -17,6 +17,9 @@ class ListLexer {
         string getTokenName(int);
         Token nextToken();
         Token fName();
+        void WS();
+        void consume();
+        void match(char);
 
     bool isLetter();
 }
