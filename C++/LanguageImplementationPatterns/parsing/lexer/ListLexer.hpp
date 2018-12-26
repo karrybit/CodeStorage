@@ -2,11 +2,11 @@
 
 class ListLexer {
     public:
-        static cosnt char eof = EOF;
+        static const char eof = EOF;
         static const int eof_type = 1;
-        string input;
-        int p = 0;
-        char c;
+        string input_;
+        int p_ = 0;
+        char c_;
 
         static int name = 2;
         static int comma = 3;
@@ -15,11 +15,8 @@ class ListLexer {
         static string[] tokenNames = {"n/a", "<EOF>", "NAME", "COMMA", "LBRACK", "RBRACK"};
 
         string getTokenName(int);
-
-        ListLexer(string input) {
-            this.input = input;
-            this.c = input[p];
-        }
+        Token nextToken();
+        Token fName();
 
     bool isLetter();
 }

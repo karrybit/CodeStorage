@@ -2,11 +2,8 @@
 
 class Token {
     public:
-        int type;
-        string text;
+        int type_;
+        string text_;
         string toString();
-        Token(int type, string text) {
-            this->type = type;
-            text->text = text;
-        }
+        Token();
 }
