@@ -2,12 +2,12 @@
 #include "ListLexer.hpp"
 #include "Token.hpp"
 
-ListLexer::ListLexer(std::string input) : input_(input) {
-    c_ = input[p_];
+ListLexer::ListLexer(std::string _input) : input(_input) {
+    c = input[p];
 }
 
 bool ListLexer::isLetter() {
-    return (c_ >= 'a' && c_ <= 'z') || (c_ >= 'A' && c_ <= 'Z');
+    return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
 }
 
 std::string ListLexer::getTokenName(int x) {
@@ -15,8 +15,8 @@ std::string ListLexer::getTokenName(int x) {
 }
 
 Token ListLexer::nextToken() {
-    while (c_ != eof) {
-        switch (c_) {
+    while (c != eof) {
+        switch (c) {
             case ' ':
             case '\t':
             case '\n':
@@ -40,7 +40,7 @@ Token ListLexer::nextToken() {
     return new Token(eof_type, "<EOF>");
 }
 
-Token ListLexer::fName() {
+Token ListLexer::f_Name() {
     std::string str = "";
     do {
         str += c;
@@ -54,12 +54,12 @@ void ListLexer::WS() {
 }
 
 void ListLexer::consume() {
-    ++p_;
-    if (p_ >= input_.size()) c_ = eof;
-    else                     c_ = input_[p_];
+    ++p;
+    if (p >= input.size()) c = eof;
+    else                     c = input[p];
 }
 
 void ListLexer::match(char x) {
-    if (c_ == x) consume();
-    else         printf("expecting %c found %c", x, c_);
+    if (c == x) consume();
+    else        printf("expecting %c found %c", x, c);
 }

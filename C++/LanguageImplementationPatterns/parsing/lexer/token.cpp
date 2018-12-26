@@ -2,8 +2,8 @@
 #include "Token.hpp"
 #include "ListLexer.hpp"
 
-Token::Token(int type, std::string text) : type_(type), text_(text) {}
+Token::Token(int _type, std::string _text) : type(_type), text(_text) {}
 std::string Token::toString() {
-    std::string t_name = ListLexer.tokenNames[this->type];
-    return "<'" + this->text + "'," + t_name + ">";
+    std::string t_name = ListLexer.tokenNames[type];
+    return "<'" + text + "'," + t_name + ">";
 }
