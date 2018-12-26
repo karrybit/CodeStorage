@@ -1,10 +1,13 @@
+#ifdef LISTLEXER_HPP
+#define LISTLEXER_HPP
 #include <string>
+#include "Token.hpp"
 
 class ListLexer {
     public:
         static const char eof = EOF;
         static const int eof_type = 1;
-        string input_;
+        std::string input_;
         int p_ = 0;
         char c_;
 
@@ -12,9 +15,9 @@ class ListLexer {
         static int comma = 3;
         static int lbrack = 4;
         static int rbrack = 5;
-        static string[] tokenNames = {"n/a", "<EOF>", "NAME", "COMMA", "LBRACK", "RBRACK"};
+        static std::string[] tokenNames = {"n/a", "<EOF>", "NAME", "COMMA", "LBRACK", "RBRACK"};
 
-        string getTokenName(int);
+        stsd::string getTokenName(int);
         Token nextToken();
         Token fName();
         void WS();
@@ -23,3 +26,5 @@ class ListLexer {
 
     bool isLetter();
 }
+
+#endif

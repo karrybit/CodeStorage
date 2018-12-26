@@ -1,9 +1,13 @@
+#ifdef TOKEN_HPP
+#define TOKEN_HPP
 #include <string>
 
 class Token {
     public:
         int type_;
-        string text_;
-        string toString();
+        std::string text_;
+        std::string toString();
         Token();
 }
+
+#endif

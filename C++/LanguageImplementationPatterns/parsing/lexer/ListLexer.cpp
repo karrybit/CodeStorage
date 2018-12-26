@@ -1,7 +1,6 @@
-#include <ListLexer.hpp>
-#include <Token.hpp>
+#include "ListLexer.hpp"
 
-ListLexer::ListLexer(string input) : input_(input) {
+ListLexer::ListLexer(std::string input) : input_(input) {
     c_ = input[p_];
 }
 
@@ -9,13 +8,13 @@ bool ListLexer::isLetter() {
     return (c_ >= 'a' && c_ <= 'z') || (c_ >= 'A' && c_ <= 'Z');
 }
 
-string ListLexer::getTokenName(int x) {
+std::string ListLexer::getTokenName(int x) {
     return tokenNames[x];
 }
 
 Token ListLexer::nextToken() {
-    while (c != eof) {
-        switch (c) {
+    while (c_ != eof) {
+        switch (c_) {
             case ' ':
             case '\t':
             case '\n':
@@ -40,7 +39,7 @@ Token ListLexer::nextToken() {
 }
 
 Token ListLexer::fName() {
-    string str = "";
+    std::string str = "";
     do {
         str += c;
         consume();
