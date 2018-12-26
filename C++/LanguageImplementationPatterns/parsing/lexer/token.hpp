@@ -7,7 +7,7 @@ class Token {
         int type_;
         std::string text_;
         std::string toString();
-        Token();
+        Token(int, std::string);
 }
 
 #endif

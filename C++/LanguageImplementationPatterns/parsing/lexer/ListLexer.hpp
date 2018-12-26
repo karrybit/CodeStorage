@@ -17,6 +17,7 @@ class ListLexer {
         static int rbrack = 5;
         static std::string[] tokenNames = {"n/a", "<EOF>", "NAME", "COMMA", "LBRACK", "RBRACK"};
 
+        ListLexer(std::string);
         stsd::string getTokenName(int);
         Token nextToken();
         Token fName();
