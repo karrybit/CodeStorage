@@ -1,4 +1,4 @@
-#import <string>
+#include <string>
 
 int test() {
 }

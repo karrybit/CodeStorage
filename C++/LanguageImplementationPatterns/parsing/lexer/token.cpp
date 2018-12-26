@@ -1,4 +1,4 @@
-#import <Token.hpp>
+#include <Token.hpp>
 
 string Token::toString() {
     string t_name = ListLexer.tokenNames[this->type];
