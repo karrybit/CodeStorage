@@ -14,7 +14,7 @@ std::string ListLexer::getTokenName(int x) {
     return tokenNames[x];
 }
 
-Token ListLexer::nextToken() {
+Token::Token& ListLexer::nextToken() {
     while (c != eof) {
         switch (c) {
             case ' ':
@@ -25,28 +25,28 @@ Token ListLexer::nextToken() {
                 continue;
             case ',':
                 consume();
-                return new Token(comma, ",");
+                return new Token::Token(comma, ",");
             case '[':
                 consume();
-                return new Token(lbrack, "[");
+                return new Token::Token(lbrack, "[");
             case ']':
                 consume();
-                return new Token(rbrack, "]");
+                return new Token::Token(rbrack, "]");
             default:
-                if (isLetter()) return fName();
+                if (isLetter()) return f_Name();
                 printf("invalid character: %c\n", c);
         }
     }
     return new Token(eof_type, "<EOF>");
 }
 
-Token ListLexer::f_Name() {
+Token::Token& ListLexer::f_Name() {
     std::string str = "";
     do {
         str += c;
         consume();
     } while (isLetter());
-    return new Token(name, str);
+    return new Token::Token(name, str);
 }
 
 void ListLexer::WS() {

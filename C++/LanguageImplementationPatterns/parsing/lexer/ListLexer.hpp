@@ -16,7 +16,7 @@ class ListLexer {
         static const int comma = 3;
         static const int lbrack = 4;
         static const int rbrack = 5;
-        static const std::vector<std::string> tokenNames[6] = {"n/a", "<EOF>", "NAME", "COMMA", "LBRACK", "RBRACK"};
+        static const std::vector<std::string> tokenNames = {"n/a", "<EOF>", "NAME", "COMMA", "LBRACK", "RBRACK"};
 
         ListLexer(std::string);
         std::string getTokenName(int);
