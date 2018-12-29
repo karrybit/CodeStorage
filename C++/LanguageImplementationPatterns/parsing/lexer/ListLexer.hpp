@@ -18,15 +18,14 @@ class Token;
 
 class ListLexer {
     public:
-    // ("n/a", "<EOF>", "NAME", "COMMA", "LBRACK", "RBRACK")
-        static const vector<string> tokenNames;
+        static vector<string> tokenNames;
+        static string getTokenName(int);
 
         string input;
         int p;
         char c;
 
         ListLexer(string);
-        string getTokenName(int);
         Token nextToken();
         Token f_Name();
         void WS();

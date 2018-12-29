@@ -5,6 +5,7 @@
 using namespace std;
 
 class ListLexer;
+enum TokenType: int;
 
 class Token {
     public:

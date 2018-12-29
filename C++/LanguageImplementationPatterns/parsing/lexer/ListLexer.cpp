@@ -1,8 +1,11 @@
+#include <vector>
 #include <string>
 #include "ListLexer.hpp"
 #include "Token.hpp"
 
 using namespace std;
+
+vector<string> ListLexer::tokenNames = {"n/a", "<EOF>", "NAME", "COMMA", "LBRACK", "RBRACK"};
 
 ListLexer::ListLexer(string _input) : input(_input) {
     c = input[p];

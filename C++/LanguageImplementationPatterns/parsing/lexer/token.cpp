@@ -7,6 +7,6 @@ using namespace std;
 Token::Token(TokenType _type, string _text) : type(_type), text(_text) {}
 string Token::toString() {
     int i = type;
-    string t_name = ListLexer::tokenNames[i];
+    string t_name = ListLexer::getTokenName(i);
     return "<'" + text + "'," + t_name + ">";
 }
