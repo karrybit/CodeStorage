@@ -2,7 +2,9 @@
 #include "ListLexer.hpp"
 #include "Token.hpp"
 
-ListLexer::ListLexer(std::string _input) : input(_input) {
+using namespace std;
+
+ListLexer::ListLexer(string _input) : input(_input) {
     c = input[p];
 }
 
@@ -10,12 +12,12 @@ bool ListLexer::isLetter() {
     return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
 }
 
-std::string ListLexer::getTokenName(int x) {
+string ListLexer::getTokenName(int x) {
     return tokenNames[x];
 }
 
-Token::Token& ListLexer::nextToken() {
-    while (c != eof) {
+Token ListLexer::nextToken() {
+    while (c != EOF) {
         switch (c) {
             case ' ':
             case '\t':
@@ -25,28 +27,28 @@ Token::Token& ListLexer::nextToken() {
                 continue;
             case ',':
                 consume();
-                return new Token::Token(comma, ",");
+                return *(new Token(COMMA, ","));
             case '[':
                 consume();
-                return new Token::Token(lbrack, "[");
+                return *(new Token(LBRACK, "["));
             case ']':
                 consume();
-                return new Token::Token(rbrack, "]");
+                return *(new Token(RBRACK, "]"));
             default:
                 if (isLetter()) return f_Name();
                 printf("invalid character: %c\n", c);
         }
     }
-    return new Token(eof_type, "<EOF>");
+    return *(new Token(EOFTYPE, "<EOF>"));
 }
 
-Token::Token& ListLexer::f_Name() {
-    std::string str = "";
+Token ListLexer::f_Name() {
+    string str = "";
     do {
         str += c;
         consume();
     } while (isLetter());
-    return new Token::Token(name, str);
+    return *(new Token(NAME, str));
 }
 
 void ListLexer::WS() {
@@ -55,8 +57,8 @@ void ListLexer::WS() {
 
 void ListLexer::consume() {
     ++p;
-    if (p >= input.size()) c = eof;
-    else                     c = input[p];
+    if (p >= input.size()) c = EOF;
+    else                   c = input[p];
 }
 
 void ListLexer::match(char x) {
