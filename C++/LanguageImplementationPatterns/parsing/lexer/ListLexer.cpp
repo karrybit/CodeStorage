@@ -5,18 +5,12 @@
 
 using namespace std;
 
-vector<string> ListLexer::tokenNames = {"n/a", "<EOF>", "NAME", "COMMA", "LBRACK", "RBRACK"};
-
 ListLexer::ListLexer(string _input) : input(_input) {
     c = input[p];
 }
 
 bool ListLexer::isLetter() {
     return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
-}
-
-string ListLexer::getTokenName(int x) {
-    return tokenNames[x];
 }
 
 Token ListLexer::nextToken() {

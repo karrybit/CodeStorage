@@ -5,6 +5,11 @@
 
 using namespace std;
 
+vector<string> tokenNames = {"n/a", "<EOF>", "NAME", "COMMA", "LBRACK", "RBRACK"};
+string getTokenName(int i) {
+    return tokenNames[i];
+}
+
 enum TokenType: int {
     EOF_,
     EOFTYPE,
@@ -18,9 +23,6 @@ class Token;
 
 class ListLexer {
     public:
-        static vector<string> tokenNames;
-        static string getTokenName(int);
-
         string input;
         int p;
         char c;
