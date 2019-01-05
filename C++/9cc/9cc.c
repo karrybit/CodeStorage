@@ -52,6 +52,12 @@ void tokenize(char *p) {
   tokens[i].ty = TK_EOF;
 }
 
+// An error reporting function.
+void fail(int i) {
+  fprintf(stderr, "unexpected token: %s\n", tokens[i].input);
+  exit(1);
+}
+
 int main(int argc, char **argv) {
   if (argc != 2) {
     fprintf(stderr, "Usage: 9cc <code>\n");
