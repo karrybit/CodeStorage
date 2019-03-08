@@ -14,6 +14,7 @@ int main() {
     for (int mi = n; mi >= 0; --mi) {
         int diff = n - mi;
         for (int gi = 0; gi <= diff; ++gi) {
+            ans = mi * 10000 + gi * 5000 + (diff - gi) * 1000;
             if (ans == y) {
                 mn = mi;
                 gn = gi;
