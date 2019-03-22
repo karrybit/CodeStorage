@@ -1,3 +1,0 @@
-4
-"snakes" "programming" "cobra" "monty"
-"python" "python" "anaconda" "python"

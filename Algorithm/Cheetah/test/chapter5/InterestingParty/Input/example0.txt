@@ -1,3 +1,0 @@
-4
-"fishing" "gardening" "swimming" "fishing"
-"hunting" "fishing" "fishing" "biting"
